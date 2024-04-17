@@ -1,6 +1,5 @@
 import React from "react"
 import "@/styles/globals.css"
-import RequireAuth from "@/components/RequireAuth"
 import RecoilRootWrapper from "@/components/RecoilRootWrapper"
 
 export const metadata = {
@@ -12,9 +11,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <RecoilRootWrapper>
-        <body>
-          <RequireAuth>{children}</RequireAuth>
-        </body>
+        <body>{children}</body>
       </RecoilRootWrapper>
     </html>
   )
