@@ -1,5 +1,7 @@
 import React from "react"
 import "@/styles/globals.css"
+import RequireAuth from "@/components/RequireAuth"
+import RecoilRootWrapper from "@/components/RecoilRootWrapper"
 
 export const metadata = {
   title: "Fitness | Behind",
@@ -9,7 +11,11 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <RecoilRootWrapper>
+        <body>
+          <RequireAuth>{children}</RequireAuth>
+        </body>
+      </RecoilRootWrapper>
     </html>
   )
 }
