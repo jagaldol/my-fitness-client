@@ -1,8 +1,13 @@
-import { atom } from "recoil"
+import { atom, selector } from "recoil"
 
-const isLoginState = atom({
-  key: "isLoginState",
-  default: false,
+export const userIdState = atom({
+  key: "userIdState",
+  default: 0,
 })
 
-export default isLoginState
+export const isLoginState = selector({
+  key: "isLoginState",
+  get: ({ get }) => {
+    return get(userIdState) !== 0
+  },
+})

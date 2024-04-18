@@ -1,18 +1,26 @@
 "use client"
 
-import { useRecoilValue } from "recoil"
-import isLoginState from "@/state/auth"
+import { useRecoilState } from "recoil"
+import { userIdState } from "@/state/auth"
 import { useRouter } from "next/navigation"
 import { ReactNode, useEffect } from "react"
+import { getJwtPayload } from "@/utils/jwtDecoder"
+import useLogout from "@/hooks/useLogout"
 
 export default function RequireAuth({ children }: { children: ReactNode }) {
-  const isLoggedIn = useRecoilValue(isLoginState)
+  const [userId, setUserId] = useRecoilState(userIdState)
+  const logout = useLogout()
   const router = useRouter()
+
   useEffect(() => {
-    if (!isLoggedIn) {
-      router.push("/login")
+    const payload = getJwtPayload()
+    if (payload) {
+      setUserId(payload.id)
+    } else {
+      logout()
+      router.replace("/login")
     }
-  }, [isLoggedIn, router])
+  }, [userId, setUserId, logout, router])
 
   return children
 }

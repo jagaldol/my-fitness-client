@@ -1,16 +1,16 @@
 "use client"
 
-import { useSetRecoilState } from "recoil"
-import isLoginState from "@/state/auth"
+import useLogout from "@/hooks/useLogout"
+import axiosInstance from "@/utils/axiosInstance"
 
 export default function LogoutButton() {
-  const setLogin = useSetRecoilState(isLoginState)
+  const logout = useLogout()
   return (
     <button
       type="button"
       className="bg-main-theme rounded-md"
       onClick={() => {
-        setLogin(false)
+        axiosInstance.post("/logout").finally(logout)
       }}
     >
       logout

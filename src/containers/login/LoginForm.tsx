@@ -1,46 +1,52 @@
 "use client"
 
-import React, { forwardRef, HTMLInputTypeAttribute, useRef } from "react"
-import axiosInstance from "@/hooks/axiosInstance"
+import React, { forwardRef, HTMLInputTypeAttribute, useEffect, useRef } from "react"
 import { useSetRecoilState } from "recoil"
 import { useRouter } from "next/navigation"
-import isLoginState from "@/state/auth"
-import { saveJwt } from "@/utils/jwtDecoder"
+import { userIdState } from "@/state/auth"
+import { getJwtId, getJwtPayload, saveJwt } from "@/utils/jwtDecoder"
+import axiosInstance from "@/utils/axiosInstance"
 
-const Field = forwardRef(
-  (
-    {
-      label,
-      id,
-      type,
-    }: {
-      label: string
-      id: string
-      type: HTMLInputTypeAttribute
-    },
-    ref: React.Ref<HTMLInputElement>,
-  ) => {
-    return (
-      <label htmlFor={id}>
-        {label}
-        <input
-          type={type}
-          id={id}
-          autoComplete="on"
-          className="w-full p-2 bg-input-box border border-gray-100 rounded-md h-14 mt-2"
-          required
-          ref={ref}
-        />
-      </label>
-    )
+const Field = forwardRef(function _field(
+  {
+    label,
+    id,
+    type,
+  }: {
+    label: string
+    id: string
+    type: HTMLInputTypeAttribute
   },
-)
+  ref: React.Ref<HTMLInputElement>,
+) {
+  return (
+    <label htmlFor={id}>
+      {label}
+      <input
+        type={type}
+        id={id}
+        autoComplete="on"
+        className="w-full p-2 bg-input-box border border-gray-100 rounded-md h-14 mt-2"
+        required
+        ref={ref}
+      />
+    </label>
+  )
+})
 
 export default function LoginForm() {
-  const setLogin = useSetRecoilState(isLoginState)
+  const setUserId = useSetRecoilState(userIdState)
   const router = useRouter()
   const emailInputRef = useRef<HTMLInputElement>(null)
   const passwordInputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    const payload = getJwtPayload()
+    if (payload) {
+      router.replace("/")
+    }
+  })
+
   return (
     <form
       className="w-[350px] flex flex-col gap-10"
@@ -53,8 +59,8 @@ export default function LoginForm() {
           .then((res) => {
             const jwt = res.headers.authorization
             saveJwt(jwt)
-            setLogin(true)
-            router.push("/")
+            setUserId(getJwtId(jwt))
+            router.replace("/")
           })
           .catch((res) => {
             if (res.response.data.response === "LOGIN_FAILED") alert("이메일 혹은 비밀번호가 틀렸습니다.")
