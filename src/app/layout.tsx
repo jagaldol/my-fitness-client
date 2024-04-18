@@ -13,7 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <QueryClientProviderWrapper>
         <RecoilRootWrapper>
-          <body>{children}</body>
+          <body className="flex flex-col items-center justify-center">{children}</body>
         </RecoilRootWrapper>
       </QueryClientProviderWrapper>
     </html>

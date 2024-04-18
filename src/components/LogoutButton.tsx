@@ -16,7 +16,7 @@ export default function LogoutButton() {
       }}
     >
       <span>로그아웃</span>
-      <FontAwesomeIcon icon={faArrowRightFromBracket} />
+      <FontAwesomeIcon className="h-4 w-4" icon={faArrowRightFromBracket} />
     </button>
   )
 }
