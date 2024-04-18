@@ -15,7 +15,7 @@ export default function RequireAuth({ children }: { children: ReactNode }) {
   useEffect(() => {
     const payload = getJwtPayload()
     if (payload) {
-      setUserId(payload.id)
+      setUserId(payload.sub)
     } else {
       logout()
       router.replace("/login")

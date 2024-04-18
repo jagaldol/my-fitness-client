@@ -7,7 +7,6 @@ export default function MainLayout({ children }: { children: ReactNode }) {
     <RequireAuth>
       {children}
       <Navigator />
-      dfafd
     </RequireAuth>
   )
 }

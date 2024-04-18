@@ -2,18 +2,21 @@
 
 import useLogout from "@/hooks/useLogout"
 import axiosInstance from "@/utils/axiosInstance"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons"
 
 export default function LogoutButton() {
   const logout = useLogout()
   return (
     <button
       type="button"
-      className="bg-main-theme rounded-md"
+      className="text-text-gray flex gap-1 items-center"
       onClick={() => {
         axiosInstance.post("/logout").finally(logout)
       }}
     >
-      logout
+      <span>로그아웃</span>
+      <FontAwesomeIcon icon={faArrowRightFromBracket} />
     </button>
   )
 }

@@ -1,6 +1,7 @@
 import React from "react"
 import "@/styles/globals.css"
 import RecoilRootWrapper from "@/components/RecoilRootWrapper"
+import QueryClientProviderWrapper from "@/components/QueryClientProviderWrapper"
 
 export const metadata = {
   title: "Fitness | Behind",
@@ -10,9 +11,11 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <RecoilRootWrapper>
-        <body>{children}</body>
-      </RecoilRootWrapper>
+      <QueryClientProviderWrapper>
+        <RecoilRootWrapper>
+          <body>{children}</body>
+        </RecoilRootWrapper>
+      </QueryClientProviderWrapper>
     </html>
   )
 }
