@@ -10,6 +10,7 @@ const config: Config = {
         "content-box": "#1E2637",
         "input-box": "#1C1E2C",
         text: "#ffffff",
+        "text-gray": "#8D8E92",
       },
     },
     fontFamily: {
