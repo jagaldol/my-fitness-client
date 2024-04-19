@@ -49,7 +49,7 @@ export default function LoginForm() {
 
   return (
     <form
-      className="w-[350px] flex flex-col gap-10"
+      className="w-[350px] max-w-[85%] flex flex-col gap-10"
       onSubmit={(e) => {
         e.preventDefault()
         const email = emailInputRef?.current?.value
