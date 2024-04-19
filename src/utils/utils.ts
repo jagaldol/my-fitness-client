@@ -3,9 +3,12 @@ export function convertDateString(dateStr: string) {
   return new Date(splitDate[0], splitDate[1] - 1, splitDate[2])
 }
 
-export function convertTimeString(timeStr: string) {
-  const splitTime = timeStr.split(":")
-  return `${splitTime[0]}:${splitTime[1]}`
+export function convertTimeString(timeStr: string | undefined) {
+  if (timeStr) {
+    const splitTime = timeStr.split(":")
+    return `${splitTime[0]}:${splitTime[1]}`
+  }
+  return "--:--"
 }
 
 export function getKoreanDay(day: number) {
