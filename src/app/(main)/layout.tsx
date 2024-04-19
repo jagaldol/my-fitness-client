@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react"
-import RequireAuth from "@/components/RequireAuth"
-import Navigator from "@/components/Navigator"
+import RequireAuth from "@/providers/RequireAuth"
+import Navigator from "@/components/nav/Navigator"
 
 export default function MainLayout({ children }: { children: ReactNode }) {
   return (

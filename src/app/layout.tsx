@@ -1,7 +1,7 @@
 import React from "react"
 import "@/styles/globals.css"
-import RecoilRootWrapper from "@/components/RecoilRootWrapper"
-import QueryClientProviderWrapper from "@/components/QueryClientProviderWrapper"
+import RecoilRootWrapper from "@/providers/RecoilRootWrapper"
+import QueryClientProviderWrapper from "@/providers/QueryClientProviderWrapper"
 
 export const metadata = {
   title: "Fitness | Behind",

@@ -1,11 +1,7 @@
-import LogoutButton from "@/components/LogoutButton"
-
 export default function Home() {
   return (
-    <main>
-      매인페이지
-      <div>내용</div>
-      <LogoutButton />
+    <main className="flex min-h-screen justify-center items-center">
+      <h1 className="text-3xl">매인페이지</h1>
     </main>
   )
 }

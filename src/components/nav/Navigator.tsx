@@ -1,5 +1,5 @@
 import { faBars, faDumbbell, faHouseChimney } from "@fortawesome/free-solid-svg-icons"
-import NavLink from "@/components/NavLink"
+import NavLink from "@/components/nav/NavLink"
 
 export default function Navigator() {
   return (

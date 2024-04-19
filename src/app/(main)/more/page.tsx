@@ -1,4 +1,4 @@
-import LogoutButton from "@/components/LogoutButton"
+import LogoutButton from "@/containers/more/LogoutButton"
 import UserName from "@/containers/more/UserName"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faUser } from "@fortawesome/free-solid-svg-icons"
