@@ -5,7 +5,7 @@ import Navigator from "@/components/nav/Navigator"
 export default function MainLayout({ children }: { children: ReactNode }) {
   return (
     <RequireAuth>
-      {children}
+      <main className="pb-24 w-screen">{children}</main>
       <Navigator />
     </RequireAuth>
   )
