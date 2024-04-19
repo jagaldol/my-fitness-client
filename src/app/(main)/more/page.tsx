@@ -16,7 +16,7 @@ export default function More() {
           <LogoutButton />
         </div>
       </section>
-      <hr className="border-text-gray" />
+      <hr />
       <section className="py-6 px-11 w-full h-16 font-GmarketSansMedium text-base">
         <p>📝 메모</p>
         <UserMemo />

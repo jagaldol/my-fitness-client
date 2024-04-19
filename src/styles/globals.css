@@ -18,10 +18,17 @@
 
 @layer base {
     body {
-        @apply bg-background text-text font-SUITRegular;
+        @apply bg-background text-text font-SUITRegular text-sm;
+        -ms-overflow-style: none;
     }
-    
 
+    body::-webkit-scrollbar {
+        display: none;
+    }
+
+    hr {
+        @apply border-text-gray;
+    }
 }
 
 @layer utilities {

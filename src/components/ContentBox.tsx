@@ -1,11 +1,5 @@
 import { ReactNode } from "react"
 
-export default function ContentBox({ title, children }: { title: string; children: ReactNode }) {
-  return (
-    <section className="bg-content-box">
-      <h2>{title}</h2>
-      <hr />
-      {children}
-    </section>
-  )
+export default function ContentBox({ children }: { children: ReactNode }) {
+  return <section className="bg-content-box rounded-md p-2">{children}</section>
 }

@@ -15,8 +15,8 @@ export default function LogoutButton() {
         axiosInstance.post("/logout").finally(logout)
       }}
     >
-      <span>로그아웃</span>
       <FontAwesomeIcon className="h-4 w-4" icon={faArrowRightFromBracket} />
+      <span>로그아웃</span>
     </button>
   )
 }

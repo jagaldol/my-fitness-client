@@ -3,8 +3,7 @@
 import { useInfiniteQuery } from "@tanstack/react-query"
 import axiosInstance from "@/utils/axiosInstance"
 import React from "react"
-import ContentBox from "@/components/ContentBox"
-import SessionBox from "@/components/SessionBox"
+import SessionBox from "@/containers/records/SessionBox"
 
 export default function RecordsContainer() {
   const { data, fetchNextPage } = useInfiniteQuery({
@@ -32,9 +31,7 @@ export default function RecordsContainer() {
         return (
           <React.Fragment key={idx}>
             {page.sessions.map((session: any, i: number) => (
-              <ContentBox title={session.date} key={i}>
-                <SessionBox session={session} />
-              </ContentBox>
+              <SessionBox key={i} session={session} />
             ))}
           </React.Fragment>
         )
