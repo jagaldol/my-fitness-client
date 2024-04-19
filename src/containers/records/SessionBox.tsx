@@ -10,7 +10,6 @@ export default function SessionBox({ session }: { session: any }) {
   const date = convertDateString(session.date)
 
   const [isOpen, setIsOpen] = useState(false)
-  console.log(session)
 
   return (
     <ContentBox>
