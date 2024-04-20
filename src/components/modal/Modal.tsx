@@ -1,0 +1,41 @@
+"use client"
+
+import React from "react"
+import { MdClose } from "react-icons/md"
+import { ModalData } from "@/types/modal"
+import { useSetRecoilState } from "recoil"
+import modalState from "@/states/modalState"
+
+interface Props {
+  modalData: ModalData
+}
+
+function Modal({ modalData }: Props): JSX.Element {
+  const setModalList = useSetRecoilState(modalState)
+  const onClose = () => {
+    setModalList((prev: ModalData[]) => {
+      return prev.filter((item) => item.id !== modalData.id)
+    })
+  }
+  return (
+    <div className="fixed z-50 left-0 right-0 top-0 bottom-0 flex items-center justify-center bg-black/30">
+      <div className="bg-content-box border border-text-gray/10 rounded-2xl shadow-2xl overflow-clip p-3">
+        <div className="flex w-full justify-between items-center">
+          <h2 className="text-lg font-GmarketSansMedium mr-7">{modalData.title}</h2>
+          <button
+            type="button"
+            className="hover:text-text-gray transition-all text-2xl font-bold rounded-full"
+            onClick={onClose}
+            aria-label="Modal Close"
+          >
+            <MdClose />
+          </button>
+        </div>
+        <hr />
+        <section className="p-2">{modalData.body}</section>
+      </div>
+    </div>
+  )
+}
+
+export default Modal
