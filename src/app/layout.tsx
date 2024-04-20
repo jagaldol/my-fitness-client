@@ -3,7 +3,6 @@ import "@/styles/globals.css"
 import RecoilRootWrapper from "@/wrappers/RecoilRootWrapper"
 import QueryClientProviderWrapper from "@/wrappers/QueryClientProviderWrapper"
 import Toast from "@/components/toast/Toast"
-import ModalList from "@/components/modal/ModalList"
 
 export const metadata = {
   title: "Fitness | Behind",
@@ -18,7 +17,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <RecoilRootWrapper>
             {children}
             <Toast />
-            <ModalList />
           </RecoilRootWrapper>
         </QueryClientProviderWrapper>
       </body>

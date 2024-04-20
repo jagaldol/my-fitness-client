@@ -3,10 +3,12 @@ import UserName from "@/containers/more/UserName"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faUser } from "@fortawesome/free-solid-svg-icons"
 import UserMemo from "@/containers/more/UserMemo"
+import RecordsHeader from "@/containers/records/RecordsHeader"
 
 export default function More() {
   return (
     <>
+      <RecordsHeader />
       <section className="p-6 w-full">
         <div className="h-16 bg-content-box rounded-md px-5 flex items-center justify-between">
           <div className="flex gap-3 items-end">
