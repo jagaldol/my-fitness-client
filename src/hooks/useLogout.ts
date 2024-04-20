@@ -1,6 +1,6 @@
 import { useSetRecoilState } from "recoil"
 import { deleteJwt } from "@/utils/jwtDecoder"
-import { userIdState } from "@/state/auth"
+import { userIdState } from "@/states/auth"
 
 export default function useLogout() {
   const setUserId = useSetRecoilState(userIdState)

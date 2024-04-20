@@ -3,7 +3,7 @@
 import React, { forwardRef, HTMLInputTypeAttribute, useEffect, useRef } from "react"
 import { useSetRecoilState } from "recoil"
 import { useRouter } from "next/navigation"
-import { userIdState } from "@/state/auth"
+import { userIdState } from "@/states/auth"
 import { getJwtId, getJwtPayload, saveJwt } from "@/utils/jwtDecoder"
 import axiosInstance from "@/utils/axiosInstance"
 import useToast from "@/hooks/useToast"

@@ -3,7 +3,7 @@
 import { MdCheckCircleOutline, MdErrorOutline, MdWarningAmber } from "react-icons/md"
 import { useRecoilValue } from "recoil"
 import { ToastData } from "@/types/toast"
-import toastState from "@/state/toastState"
+import toastState from "@/states/toastState"
 import ToastItem from "@/components/toast/ToastItem"
 
 function Toast(): JSX.Element {

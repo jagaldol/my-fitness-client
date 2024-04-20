@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import axiosInstance from "@/utils/axiosInstance"
 import { useRecoilValue } from "recoil"
-import { userIdState } from "@/state/auth"
+import { userIdState } from "@/states/auth"
 
 export default function useUserInfoQuery() {
   const queryClient = useQueryClient()

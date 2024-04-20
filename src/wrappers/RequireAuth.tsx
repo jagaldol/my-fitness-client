@@ -1,7 +1,7 @@
 "use client"
 
 import { useSetRecoilState } from "recoil"
-import { userIdState } from "@/state/auth"
+import { userIdState } from "@/states/auth"
 import { useRouter } from "next/navigation"
 import { ReactNode, useEffect } from "react"
 import { getJwtPayload } from "@/utils/jwtDecoder"

@@ -3,7 +3,7 @@
 import { ToastData } from "@/types/toast"
 import React, { useEffect, useState } from "react"
 import { useSetRecoilState } from "recoil"
-import toastState from "@/state/toastState"
+import toastState from "@/states/toastState"
 
 interface Props {
   toastData: ToastData

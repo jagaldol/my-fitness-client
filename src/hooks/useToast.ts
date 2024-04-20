@@ -1,5 +1,5 @@
 import { useSetRecoilState } from "recoil"
-import toastState from "@/state/toastState"
+import toastState from "@/states/toastState"
 
 export default function useToast() {
   const setToastList = useSetRecoilState(toastState)
