@@ -9,7 +9,7 @@ export default function RecordsContainer() {
   const { data, fetchNextPage } = useInfiniteQuery({
     initialData: undefined,
     initialPageParam: 1,
-    queryKey: ["getRecords"],
+    queryKey: ["/sessions"],
     queryFn: async ({ pageParam = 1 }) => {
       const params = { page: pageParam, size: 1 }
 

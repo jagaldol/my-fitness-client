@@ -7,7 +7,7 @@ export default function useUserInfoQuery() {
   const queryClient = useQueryClient()
   const userId = useRecoilValue(userIdState)
   const { data, isSuccess } = useQuery({
-    queryKey: ["userInfo", userId],
+    queryKey: ["/users/mine", userId],
     queryFn: async () => {
       return axiosInstance.get("/users/mine").then((res) => res.data)
     },
@@ -19,7 +19,7 @@ export default function useUserInfoQuery() {
       return axiosInstance.put("/users/mine", newInfo)
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["userInfo", userId] }).then(() => {})
+      queryClient.invalidateQueries({ queryKey: ["/users/mine", userId] }).then(() => {})
     },
   })
 
