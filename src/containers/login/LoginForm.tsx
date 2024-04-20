@@ -40,7 +40,7 @@ export default function LoginForm() {
   const router = useRouter()
   const emailInputRef = useRef<HTMLInputElement>(null)
   const passwordInputRef = useRef<HTMLInputElement>(null)
-  const { addWarningToast, addErrorToast } = useToast()
+  const { addSuccessToast, addWarningToast, addErrorToast } = useToast()
 
   useEffect(() => {
     const payload = getJwtPayload()
@@ -59,6 +59,7 @@ export default function LoginForm() {
         axiosInstance
           .post("/login", { email, password })
           .then((res) => {
+            addSuccessToast("환영합니다!")
             const jwt = res.headers.authorization
             saveJwt(jwt)
             setUserId(getJwtId(jwt))
