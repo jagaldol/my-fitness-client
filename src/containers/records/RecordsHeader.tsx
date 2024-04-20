@@ -3,6 +3,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faSquarePlus } from "@fortawesome/free-regular-svg-icons"
 import useModal from "@/hooks/useModal"
+import AddSessionForm from "@/containers/records/AddSessionForm"
 
 export default function RecordsHeader() {
   const { openModal } = useModal()
@@ -12,7 +13,7 @@ export default function RecordsHeader() {
         <button
           type="button"
           className="p-2 flex items-center"
-          onClick={() => openModal("기록 추가하기", <div>폼 데이터</div>)}
+          onClick={() => openModal("기록 추가하기", <AddSessionForm />)}
         >
           <span className="font-GmarketSansMedium pt-0.5">추가하기</span>
           <FontAwesomeIcon className="w-4 h-4 px-2" icon={faSquarePlus} />

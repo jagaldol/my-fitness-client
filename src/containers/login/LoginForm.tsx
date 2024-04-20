@@ -22,7 +22,7 @@ const Field = forwardRef(function FieldForward(
 ) {
   return (
     <label htmlFor={id}>
-      {label}
+      <span>{label}</span>
       <input
         type={type}
         id={id}
