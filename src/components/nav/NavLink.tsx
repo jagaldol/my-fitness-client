@@ -11,6 +11,7 @@ export default function NavLink({ link, icon, name }: { link: string; icon: Icon
     <Link
       href={link}
       className={`flex flex-col items-center justify-end gap-1 p-4 ${pathname === link ? "text-main-theme" : "text-text-gray"}`}
+      scroll={false}
     >
       <FontAwesomeIcon className="w-6 h-6" icon={icon} />
       <span className="font-GmarketSansMedium">{name}</span>

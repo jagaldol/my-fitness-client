@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { userIdState } from "@/state/auth"
 import { getJwtId, getJwtPayload, saveJwt } from "@/utils/jwtDecoder"
 import axiosInstance from "@/utils/axiosInstance"
+import useToast from "@/hooks/useToast"
 
 const Field = forwardRef(function FieldForward(
   {
@@ -39,6 +40,7 @@ export default function LoginForm() {
   const router = useRouter()
   const emailInputRef = useRef<HTMLInputElement>(null)
   const passwordInputRef = useRef<HTMLInputElement>(null)
+  const { addWarningToast, addErrorToast } = useToast()
 
   useEffect(() => {
     const payload = getJwtPayload()
@@ -63,8 +65,8 @@ export default function LoginForm() {
             router.replace("/")
           })
           .catch((res) => {
-            if (res.response.data.response === "LOGIN_FAILED") alert("이메일 혹은 비밀번호가 틀렸습니다.")
-            else alert(res.response.data.errorMessage)
+            if (res.response.data.response === "LOGIN_FAILED") addWarningToast("이메일 혹은 비밀번호가 틀렸습니다.")
+            else addErrorToast(res.response.data.errorMessage)
           })
       }}
     >

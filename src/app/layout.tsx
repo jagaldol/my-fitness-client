@@ -2,6 +2,7 @@ import React from "react"
 import "@/styles/globals.css"
 import RecoilRootWrapper from "@/wrappers/RecoilRootWrapper"
 import QueryClientProviderWrapper from "@/wrappers/QueryClientProviderWrapper"
+import Toast from "@/components/toast/Toast"
 
 export const metadata = {
   title: "Fitness | Behind",
@@ -11,11 +12,14 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <QueryClientProviderWrapper>
-        <RecoilRootWrapper>
-          <body className="flex flex-col items-center justify-center">{children}</body>
-        </RecoilRootWrapper>
-      </QueryClientProviderWrapper>
+      <body className="flex flex-col items-center justify-center">
+        <QueryClientProviderWrapper>
+          <RecoilRootWrapper>
+            {children}
+            <Toast />
+          </RecoilRootWrapper>
+        </QueryClientProviderWrapper>
+      </body>
     </html>
   )
 }

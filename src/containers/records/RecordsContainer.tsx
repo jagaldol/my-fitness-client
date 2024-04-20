@@ -27,15 +27,9 @@ export default function RecordsContainer() {
 
   return (
     <>
-      {data?.pages.map((page, idx) => {
-        return (
-          <React.Fragment key={idx}>
-            {page.sessions.map((session: any, i: number) => (
-              <SessionBox key={i} session={session} />
-            ))}
-          </React.Fragment>
-        )
-      })}
+      {data?.pages.map((page) =>
+        page.sessions.map((session: any) => <SessionBox key={session.id} session={session} />),
+      )}
       <button type="button" onClick={() => fetchNextPage()}>
         더보기
       </button>
