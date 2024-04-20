@@ -2,15 +2,17 @@
 
 import axiosInstance from "@/utils/axiosInstance"
 import React, { useState } from "react"
-import { useRouter } from "next/navigation"
 import useToast from "@/hooks/useToast"
 import DatePicker from "@/components/DatePicker"
 import { formatDateToString, formatDateToStringDash } from "@/utils/utils"
 import TimeSelector from "@/components/TimeSelector"
+import useMutateWithQueryClient from "@/hooks/useMutateWithQueryClient"
+import { AxiosError } from "axios"
 
 export default function AddSessionForm() {
-  const router = useRouter()
+  // const router = useRouter()
   const { addSuccessToast, addErrorToast } = useToast()
+  const { mutate, queryClient } = useMutateWithQueryClient((data) => axiosInstance.post("/sessions", data))
 
   const [date, setDate] = useState(new Date())
   const [startHour, setStartHour] = useState(-1)
@@ -34,15 +36,18 @@ export default function AddSessionForm() {
               ? `${endHour.toString().padStart(2, "0")}:${endMinute.toString().padStart(2, "0")}`
               : undefined,
         }
-        axiosInstance
-          .post("/sessions", data)
-          .then((res) => {
+        mutate(data, {
+          onSuccess: () => {
             addSuccessToast("기록이 생성되었습니다.")
-            router.replace(`/records/${res.data.response.id}/update`)
-          })
-          .catch((res) => {
-            addErrorToast(res.response.data.errorMessage)
-          })
+            // router.replace(`/records/${res.data.response.id}/update`)
+            queryClient.invalidateQueries({ queryKey: ["/sessions"] }).then()
+            // queryClient.refetchQueries({ queryKey: ["/sessions"] }).then()
+          },
+          onError: (err) => {
+            if (err instanceof AxiosError) addErrorToast(err?.response?.data.errorMessage)
+            else addErrorToast(err.message)
+          },
+        })
       }}
     >
       <div className="flex flex-col gap-4">

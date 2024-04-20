@@ -1,17 +1,14 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import axiosInstance from "@/utils/axiosInstance"
-import { useRecoilValue } from "recoil"
-import { userIdState } from "@/states/auth"
 
 export default function useUserInfoQuery() {
   const queryClient = useQueryClient()
-  const userId = useRecoilValue(userIdState)
   const { data, isSuccess } = useQuery({
-    queryKey: ["/users/mine", userId],
+    queryKey: ["/users/mine"],
     queryFn: async () => {
       return axiosInstance.get("/users/mine").then((res) => res.data)
     },
-    enabled: userId !== 0,
+    staleTime: 300_000,
   })
 
   const updateMutation = useMutation({
@@ -19,7 +16,7 @@ export default function useUserInfoQuery() {
       return axiosInstance.put("/users/mine", newInfo)
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/users/mine", userId] }).then(() => {})
+      queryClient.invalidateQueries({ queryKey: ["/users/mine"] }).then()
     },
   })
 

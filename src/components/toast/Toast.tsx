@@ -36,7 +36,7 @@ function Toast(): JSX.Element {
   }
 
   return (
-    <div className="fixed right-5 bottom-20 flex flex-col z-50 gap-3">
+    <div className="fixed right-5 bottom-20 flex flex-col z-[500] gap-3">
       {toastList.map((item: ToastData) => (
         <ToastItem
           key={item.id}
