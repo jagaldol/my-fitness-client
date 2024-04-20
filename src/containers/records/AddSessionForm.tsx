@@ -1,50 +1,41 @@
+"use client"
+
 import axiosInstance from "@/utils/axiosInstance"
-import React, { forwardRef, useRef } from "react"
+import React, { useState } from "react"
 import { useRouter } from "next/navigation"
 import useToast from "@/hooks/useToast"
-
-const Field = forwardRef(function FieldForward(
-  {
-    label,
-    id,
-    required,
-  }: {
-    label: string
-    id: string
-    required?: boolean
-  },
-  ref: React.Ref<HTMLInputElement>,
-) {
-  return (
-    <label htmlFor={id} className="flex items-center">
-      <span className="w-20">{label}</span>
-      <input
-        id={id}
-        className="w-full p-2 bg-input-box border border-gray-100 rounded-md h-14 mt-2"
-        required={required}
-        ref={ref}
-      />
-    </label>
-  )
-})
+import DatePicker from "@/components/DatePicker"
+import { formatDateToString, formatDateToStringDash } from "@/utils/utils"
+import TimeSelector from "@/components/TimeSelector"
 
 export default function AddSessionForm() {
   const router = useRouter()
-  const dateInputRef = useRef<HTMLInputElement>(null)
-  const startTimeInputRef = useRef<HTMLInputElement>(null)
-  const endTimeInputRef = useRef<HTMLInputElement>(null)
   const { addSuccessToast, addErrorToast } = useToast()
+
+  const [date, setDate] = useState(new Date())
+  const [startHour, setStartHour] = useState(-1)
+  const [startMinute, setStartMinute] = useState(-1)
+  const [endHour, setEndHour] = useState(-1)
+  const [endMinute, setEndMinute] = useState(-1)
 
   return (
     <form
       className="flex flex-col gap-10"
       onSubmit={(e) => {
         e.preventDefault()
-        const date = dateInputRef?.current?.value
-        const startTime = startTimeInputRef?.current?.value
-        const endTime = endTimeInputRef?.current?.value
+        const data = {
+          date: formatDateToStringDash(date),
+          startTime:
+            startHour !== -1 && startMinute !== -1
+              ? `${startHour.toString().padStart(2, "0")}:${startMinute.toString().padStart(2, "0")}`
+              : undefined,
+          endTime:
+            endHour !== -1 && endMinute !== -1
+              ? `${endHour.toString().padStart(2, "0")}:${endMinute.toString().padStart(2, "0")}`
+              : undefined,
+        }
         axiosInstance
-          .post("/sessions", { date, startTime, endTime })
+          .post("/sessions", data)
           .then((res) => {
             addSuccessToast("기록이 생성되었습니다.")
             router.replace(`/records/${res.data.response.id}/update`)
@@ -55,11 +46,23 @@ export default function AddSessionForm() {
       }}
     >
       <div className="flex flex-col gap-4">
-        <Field label="날짜" id="date" ref={dateInputRef} required />
-        <Field label="시작시간" id="startTime" ref={startTimeInputRef} />
-        <Field label="종료시간" id="endTime" ref={endTimeInputRef} />
+        <div className="flex items-center">
+          <span className="w-20">날짜</span>
+          <div className="flex items-center gap-2">
+            <DatePicker setDate={setDate} />
+            <span>{formatDateToString(date)}</span>
+          </div>
+        </div>
+        <div className="flex items-center">
+          <span className="w-20">시작시간</span>
+          <TimeSelector hour={startHour} minute={startMinute} setHour={setStartHour} setMinute={setStartMinute} />
+        </div>
+        <div className="flex items-center">
+          <span className="w-20">종료시간</span>
+          <TimeSelector hour={endHour} minute={endMinute} setHour={setEndHour} setMinute={setEndMinute} />
+        </div>
       </div>
-      <button type="submit" className="w-full h-14 rounded-full bg-main-theme">
+      <button type="submit" className="w-full h-10 rounded-full bg-main-theme">
         추가
       </button>
     </form>

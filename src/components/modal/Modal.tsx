@@ -8,9 +8,10 @@ import modalState from "@/states/modalState"
 
 interface Props {
   modalData: ModalData
+  zIndex: number
 }
 
-function Modal({ modalData }: Props): JSX.Element {
+function Modal({ modalData, zIndex }: Props): JSX.Element {
   const setModalList = useSetRecoilState(modalState)
   const onClose = () => {
     setModalList((prev: ModalData[]) => {
@@ -18,13 +19,16 @@ function Modal({ modalData }: Props): JSX.Element {
     })
   }
   return (
-    <div className="fixed z-50 left-0 right-0 top-0 bottom-0 flex items-center justify-center bg-black/30">
-      <div className="bg-content-box border border-text-gray/10 rounded-2xl shadow-2xl overflow-clip p-3">
+    <div
+      style={{ zIndex }}
+      className="fixed left-0 right-0 top-0 bottom-0 flex items-center justify-center bg-black/30"
+    >
+      <div className="bg-content-box border border-text-gray/10 rounded-2xl shadow-2xl p-3">
         <div className="flex w-full justify-between items-center">
           <h2 className="text-lg font-GmarketSansMedium mr-7">{modalData.title}</h2>
           <button
             type="button"
-            className="hover:text-text-gray transition-all text-2xl font-bold rounded-full"
+            className="hover:brightness-75 transition-all text-2xl font-bold rounded-full"
             onClick={onClose}
             aria-label="Modal Close"
           >
@@ -32,7 +36,7 @@ function Modal({ modalData }: Props): JSX.Element {
           </button>
         </div>
         <hr />
-        <section className="p-2">{modalData.body}</section>
+        <section className="px-2 py-5">{modalData.body}</section>
       </div>
     </div>
   )
