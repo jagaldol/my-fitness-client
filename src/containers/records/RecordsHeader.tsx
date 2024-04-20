@@ -1,0 +1,15 @@
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faSquarePlus } from "@fortawesome/free-regular-svg-icons"
+
+export default function RecordsHeader() {
+  return (
+    <header className="fixed top-0 left-0 w-full h-14 flex justify-center py-3 max-md:px-0 bg-background/70 backdrop-blur z-50">
+      <div className="w-[1000px] h-full flex items-center justify-end px-10 max-md:px-0">
+        <button type="button" className="p-2 flex items-center">
+          <span className="font-GmarketSansMedium pt-0.5">추가하기</span>
+          <FontAwesomeIcon className="w-4 h-4 px-2" icon={faSquarePlus} />
+        </button>
+      </div>
+    </header>
+  )
+}
