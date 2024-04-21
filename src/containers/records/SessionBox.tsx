@@ -2,9 +2,8 @@
 
 import ContentBox from "@/components/ContentBox"
 import { convertDateString, convertTimeString, getKoreanDay } from "@/utils/utils"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faAngleDown } from "@fortawesome/free-solid-svg-icons"
 import React, { useState } from "react"
+import { MdExpandMore } from "react-icons/md"
 
 export default function SessionBox({ session }: { session: any }) {
   const date = convertDateString(session.date)
@@ -16,7 +15,7 @@ export default function SessionBox({ session }: { session: any }) {
       <div className="pt-3 flex items-start">
         <h2 className="text-xl flex-1 font-bold">{`${date.getMonth() + 1}월 ${date.getDate()}일(${getKoreanDay(date.getDay())})`}</h2>
         <button type="button" aria-label="토글 버튼" onClick={() => setIsOpen(!isOpen)}>
-          <FontAwesomeIcon className={`w-6 h-6 transition-all ${isOpen ? "rotate-180" : ""}`} icon={faAngleDown} />
+          <MdExpandMore className={`text-4xl transition-all ${isOpen ? "rotate-180" : ""}`} />
         </button>
       </div>
       <hr />

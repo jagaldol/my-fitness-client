@@ -2,11 +2,10 @@
 
 import useLogout from "@/hooks/useLogout"
 import axiosInstance from "@/utils/axiosInstance"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faArrowRightFromBracket } from "@fortawesome/free-solid-svg-icons"
 import { useRouter } from "next/navigation"
 import useToast from "@/hooks/useToast"
 import useMutateWithQueryClient from "@/hooks/useMutateWithQueryClient"
+import { MdLogout } from "react-icons/md"
 
 export default function LogoutButton() {
   const logout = useLogout()
@@ -29,7 +28,7 @@ export default function LogoutButton() {
         })
       }}
     >
-      <FontAwesomeIcon className="h-4 w-4" icon={faArrowRightFromBracket} />
+      <MdLogout className="text-xl" />
       <span>로그아웃</span>
     </button>
   )

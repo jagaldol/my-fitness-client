@@ -13,5 +13,5 @@ export default function UserName() {
     }
   }, [userInfo, isSuccess])
 
-  return <span className="font-GmarketSansMedium text-xl">{userName}</span>
+  return <span className="font-GmarketSansMedium text-xl pt-2">{userName}</span>
 }
