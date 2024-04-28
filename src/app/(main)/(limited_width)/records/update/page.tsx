@@ -1,11 +1,19 @@
 "use client"
 
 import UpdateSessionForm from "@/containers/records/update/UpdateSessionForm"
-import { useRecoilValue } from "recoil"
-import recordIdState from "@/states/recordIdState"
+import { useSearchParams } from "next/navigation"
 
 export default function RecordsUpdatePage() {
-  const recordId = useRecoilValue(recordIdState)
+  const searchParams = useSearchParams()
 
-  return <div className="w-full px-3 pt-14 flex flex-col gap-4">{recordId !== -1 ? <UpdateSessionForm /> : null}</div>
+  const typeCheck = (value: string | null) => {
+    const number = Number(value)
+    return !isNaN(number) && Number.isInteger(number) && number > 0
+  }
+
+  return (
+    <div className="w-full px-3 pt-14 flex flex-col gap-4">
+      {typeCheck(searchParams.get("id")) ? <UpdateSessionForm recordId={Number(searchParams.get("id"))} /> : null}
+    </div>
+  )
 }

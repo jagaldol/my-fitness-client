@@ -3,12 +3,10 @@ import React, { useEffect, useState } from "react"
 import DatePicker from "@/components/DatePicker"
 import { convertDateString, formatDateToString } from "@/utils/utils"
 import TimeSelector from "@/components/TimeSelector"
-import { useRecoilValue } from "recoil"
-import recordIdState from "@/states/recordIdState"
 import { useQuery } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
 
-export default function UpdateSessionForm() {
+export default function UpdateSessionForm({ recordId }: { recordId: number }) {
   const router = useRouter()
   // const { addSuccessToast, addErrorToast } = useToast()
   // const { mutate, queryClient } = useMutateWithQueryClient((data) => axiosInstance.post("/sessions", data))
@@ -18,7 +16,6 @@ export default function UpdateSessionForm() {
   const [endHour, setEndHour] = useState(-1)
   const [endMinute, setEndMinute] = useState(-1)
 
-  const recordId = useRecoilValue(recordIdState)
   const { data, isFetched } = useQuery({
     queryKey: [`/sessions/${recordId}`],
     queryFn: async () => {
