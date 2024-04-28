@@ -1,42 +1,18 @@
-import axiosInstance from "@/utils/axiosInstance"
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import DatePicker from "@/components/DatePicker"
 import { convertDateString, formatDateToString } from "@/utils/utils"
 import TimeSelector from "@/components/TimeSelector"
-import { useQuery } from "@tanstack/react-query"
 import { useRouter } from "next/navigation"
 
-export default function UpdateSessionForm({ recordId }: { recordId: number }) {
+export default function UpdateSessionForm({ recordId, data }: { recordId: number; data: any }) {
   const router = useRouter()
   // const { addSuccessToast, addErrorToast } = useToast()
   // const { mutate, queryClient } = useMutateWithQueryClient((data) => axiosInstance.post("/sessions", data))
-  const [date, setDate] = useState(new Date())
-  const [startHour, setStartHour] = useState(-1)
-  const [startMinute, setStartMinute] = useState(-1)
-  const [endHour, setEndHour] = useState(-1)
-  const [endMinute, setEndMinute] = useState(-1)
-
-  const { data, isFetched } = useQuery({
-    queryKey: [`/sessions/${recordId}`],
-    queryFn: async () => {
-      const res = await axiosInstance.get(`/sessions/${recordId}`)
-      return res.data.response.session
-    },
-  })
-
-  useEffect(() => {
-    if (isFetched) {
-      setDate(convertDateString(data.date))
-      if (data.startTime) {
-        setStartHour(parseInt(data.startTime.split(":")[0], 10))
-        setStartMinute(parseInt(data.startTime.split(":")[1], 10))
-      }
-      if (data.endTime) {
-        setEndHour(parseInt(data.endTime.split(":")[0], 10))
-        setEndMinute(parseInt(data.endTime.split(":")[1], 10))
-      }
-    }
-  }, [isFetched, data])
+  const [date, setDate] = useState(convertDateString(data.date))
+  const [startHour, setStartHour] = useState(data.startTime ? parseInt(data.startTime.split(":")[0], 10) : -1)
+  const [startMinute, setStartMinute] = useState(data.startTime ? parseInt(data.startTime.split(":")[1], 10) : -1)
+  const [endHour, setEndHour] = useState(data.endTime ? parseInt(data.endTime.split(":")[0], 10) : -1)
+  const [endMinute, setEndMinute] = useState(data.endTime ? parseInt(data.endTime.split(":")[1], 10) : -1)
 
   return (
     <div
