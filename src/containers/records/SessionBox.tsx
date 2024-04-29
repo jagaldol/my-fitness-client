@@ -3,19 +3,52 @@
 import ContentBox from "@/components/ContentBox"
 import { convertDateString, convertTimeString, getKoreanDay } from "@/utils/utils"
 import React, { useState } from "react"
-import { MdExpandMore } from "react-icons/md"
+import { MdDelete, MdEdit, MdExpandMore } from "react-icons/md"
 import { Record, SessionData, SetData } from "@/types/record"
+import Link from "next/link"
+import useMutateWithQueryClient from "@/hooks/useMutateWithQueryClient"
+import axiosInstance from "@/utils/axiosInstance"
+import useToast from "@/hooks/useToast"
 
 export default function SessionBox({ session }: { session: SessionData }) {
   const date = convertDateString(session.date)
 
   const [isOpen, setIsOpen] = useState(false)
+  const { addSuccessToast } = useToast()
+
+  const { mutate, queryClient } = useMutateWithQueryClient(() => axiosInstance.delete(`/sessions/${session.id}`))
 
   return (
     <ContentBox>
-      <div className="pt-3 flex items-start">
-        <h2 className="text-xl flex-1 font-bold">{`${date.getMonth() + 1}월 ${date.getDate()}일(${getKoreanDay(date.getDay())})`}</h2>
-        <button type="button" aria-label="토글 버튼" onClick={() => setIsOpen(!isOpen)}>
+      <div className="pt-3 flex items-center text-xl gap-3">
+        <h2 className=" font-bold">{`${date.getMonth() + 1}월 ${date.getDate()}일(${getKoreanDay(date.getDay())})`}</h2>
+        {isOpen && (
+          <>
+            <Link href={`/records/update?id=${session.id}`}>
+              <MdEdit className="text-main-theme" />
+            </Link>
+            <button
+              type="button"
+              aria-label="삭제"
+              onClick={() =>
+                mutate(null, {
+                  onSuccess: () => {
+                    queryClient.refetchQueries({ queryKey: ["/sessions"] }).then()
+                    addSuccessToast("삭제되었습니다.")
+                  },
+                })
+              }
+            >
+              <MdDelete className="text-main-theme" />
+            </button>
+          </>
+        )}
+        <button
+          className="flex-1 flex justify-end"
+          type="button"
+          aria-label="토글 버튼"
+          onClick={() => setIsOpen(!isOpen)}
+        >
           <MdExpandMore className={`text-4xl transition-all ${isOpen ? "rotate-180" : ""}`} />
         </button>
       </div>
