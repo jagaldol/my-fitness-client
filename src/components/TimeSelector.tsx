@@ -46,7 +46,7 @@ export default function TimeSelector({ hour, minute, setHour, setMinute }: Props
   ]
 
   return (
-    <div className="flex items-center gap-6 md:gap-2">
+    <div className="flex items-center gap-2">
       <Dropdown
         placeholder="시간"
         options={hoursOptions}

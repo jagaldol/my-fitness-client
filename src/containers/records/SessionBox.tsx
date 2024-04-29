@@ -4,6 +4,7 @@ import ContentBox from "@/components/ContentBox"
 import { convertDateString, convertTimeString, getKoreanDay } from "@/utils/utils"
 import React, { useState } from "react"
 import { MdExpandMore } from "react-icons/md"
+import { Record, SetData } from "@/types/record"
 
 export default function SessionBox({ session }: { session: any }) {
   const date = convertDateString(session.date)
@@ -21,13 +22,13 @@ export default function SessionBox({ session }: { session: any }) {
       <hr />
       <div className="p-2">
         <p className="text-xs text-end">{`${convertTimeString(session.startTime)} ~ ${convertTimeString(session.endTime)}`}</p>
-        {session.records.map((record: any) => (
+        {session.records.map((record: Record) => (
           <div className="py-2" key={record.id}>
             {isOpen ? (
               <div className="flex flex-col">
                 <h3 className="text-base min-w-32 font-bold">{record.sport.name}</h3>
                 <div className="grid grid-cols-4 gap-y-2 pt-2 w-2/3 ">
-                  {record.sets.map((set: any, idx: number) => (
+                  {record.sets.map((set: SetData, idx: number) => (
                     <React.Fragment key={set.id}>
                       <span className="text-text-gray">{`${idx + 1}세트`}</span>
                       <span className="text-end">{`${set.count}${set.countUnit}`}</span>
