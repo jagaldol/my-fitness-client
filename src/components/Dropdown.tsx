@@ -1,6 +1,6 @@
 interface Props {
   options: { name: string; id: number }[]
-  width: number
+  width: string | number
   onChange: React.ChangeEventHandler<HTMLSelectElement>
   placeholder: string
   selectedOptionId?: number

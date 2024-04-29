@@ -8,11 +8,13 @@ import axiosInstance from "@/utils/axiosInstance"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import useToast from "@/hooks/useToast"
 import UpdateSetData from "@/containers/records/update/UpdateSetData"
+import { MdAdd } from "react-icons/md"
 
 export default function UpdateSessionForm({ data }: { data: SessionData }) {
   const router = useRouter()
   const { addSuccessToast } = useToast()
   const queryClient = useQueryClient()
+
   const { mutate: sessionMutate } = useMutation({
     mutationFn: (body: any) => axiosInstance.put(`/sessions/${data.id}`, body),
   })
@@ -66,6 +68,16 @@ export default function UpdateSessionForm({ data }: { data: SessionData }) {
           </div>
         </div>
       ))}
+      <button
+        type="button"
+        onClick={() => {
+          router.push(`/records/update/create-workout?id=${data.id}`, { scroll: false })
+        }}
+        className="w-full font-bold text-lg text-main-theme flex items-center justify-center"
+      >
+        <MdAdd />
+        <span>운동 추가</span>
+      </button>
 
       <button
         type="button"
