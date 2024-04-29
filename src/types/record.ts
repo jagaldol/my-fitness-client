@@ -1,10 +1,8 @@
 export interface SessionData {
   id: number
-  date: Date
-  startHour: number
-  startMinute: number
-  endHour: number
-  endMinute: number
+  date: string
+  startTime: string
+  endTime: string
   records: Record[]
 }
 

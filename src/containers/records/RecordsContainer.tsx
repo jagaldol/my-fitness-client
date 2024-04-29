@@ -4,6 +4,7 @@ import { useInfiniteQuery } from "@tanstack/react-query"
 import axiosInstance from "@/utils/axiosInstance"
 import React from "react"
 import SessionBox from "@/containers/records/SessionBox"
+import { SessionData } from "@/types/record"
 
 export default function RecordsContainer() {
   const { data, fetchNextPage } = useInfiniteQuery({
@@ -28,7 +29,7 @@ export default function RecordsContainer() {
   return (
     <>
       {data?.pages.map((page) =>
-        page.sessions.map((session: any) => <SessionBox key={session.id} session={session} />),
+        page.sessions.map((session: SessionData) => <SessionBox key={session.id} session={session} />),
       )}
       <button type="button" onClick={() => fetchNextPage()}>
         더보기

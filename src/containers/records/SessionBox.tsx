@@ -4,9 +4,9 @@ import ContentBox from "@/components/ContentBox"
 import { convertDateString, convertTimeString, getKoreanDay } from "@/utils/utils"
 import React, { useState } from "react"
 import { MdExpandMore } from "react-icons/md"
-import { Record, SetData } from "@/types/record"
+import { Record, SessionData, SetData } from "@/types/record"
 
-export default function SessionBox({ session }: { session: any }) {
+export default function SessionBox({ session }: { session: SessionData }) {
   const date = convertDateString(session.date)
 
   const [isOpen, setIsOpen] = useState(false)
