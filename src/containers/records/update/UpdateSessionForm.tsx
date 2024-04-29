@@ -22,12 +22,15 @@ export default function UpdateSessionForm({ data }: { data: SessionData }) {
     mutationFn: (body: any) => axiosInstance.put(`/sessions/${data.id}`, body),
   })
 
+  const { mutate: postSetRecord } = useMutation({
+    mutationFn: (id: number) => axiosInstance.post(`/sessions/records/${id}/sets`, {}),
+  })
+
   const setOneData = (label: string, value: any) => {
     sessionMutate(
       { [label]: value },
       {
         onSuccess: () => {
-          console.log(`/sessions/${data.id}`)
           queryClient.refetchQueries({ queryKey: [`/sessions/${data.id}`] }).then()
         },
       },
@@ -72,8 +75,24 @@ export default function UpdateSessionForm({ data }: { data: SessionData }) {
               <UpdateSetData data={set} sessionId={data.id} idx={idx} key={set.id} />
             ))}
           </div>
+          <button
+            type="button"
+            onClick={() =>
+              postSetRecord(record.id, {
+                onSuccess: () => {
+                  queryClient.refetchQueries({ queryKey: [`/sessions/${data.id}`] }).then()
+                  addSuccessToast("세트를 생성했습니다.")
+                },
+              })
+            }
+            className="w-full mt-5 font-bold text-base text-main-theme flex items-center justify-center"
+          >
+            <MdAdd />
+            <span>세트 추가</span>
+          </button>
         </div>
       ))}
+      <hr />
       <button
         type="button"
         onClick={() => openModal("운동 추가하기", <AddRecordForm />)}
