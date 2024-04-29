@@ -7,6 +7,8 @@ import { userIdState } from "@/states/auth"
 import { getJwtId, getJwtPayload, saveJwt } from "@/utils/jwtDecoder"
 import axiosInstance from "@/utils/axiosInstance"
 import useToast from "@/hooks/useToast"
+import useMutateWithQueryClient from "@/hooks/useMutateWithQueryClient"
+import { AxiosError } from "axios"
 
 const Field = forwardRef(function FieldForward(
   {
@@ -42,6 +44,8 @@ export default function LoginForm() {
   const passwordInputRef = useRef<HTMLInputElement>(null)
   const { addSuccessToast, addWarningToast, addErrorToast } = useToast()
 
+  const { mutate, queryClient } = useMutateWithQueryClient((data) => axiosInstance.post("/logout", data))
+
   useEffect(() => {
     const payload = getJwtPayload()
     if (payload) {
@@ -56,19 +60,24 @@ export default function LoginForm() {
         e.preventDefault()
         const email = emailInputRef?.current?.value
         const password = passwordInputRef?.current?.value
-        axiosInstance
-          .post("/login", { email, password })
-          .then((res) => {
-            addSuccessToast("환영합니다!")
-            const jwt = res.headers.authorization
-            saveJwt(jwt)
-            setUserId(getJwtId(jwt))
-            router.replace("/")
-          })
-          .catch((res) => {
-            if (res.response.data.response === "LOGIN_FAILED") addWarningToast("이메일 혹은 비밀번호가 틀렸습니다.")
-            else addErrorToast(res.response.data.errorMessage)
-          })
+        mutate(
+          { email, password },
+          {
+            onSuccess: (res) => {
+              addSuccessToast("환영합니다!")
+              const jwt = res.headers.authorization
+              saveJwt(jwt)
+              setUserId(getJwtId(jwt))
+              queryClient.invalidateQueries().then()
+              router.replace("/")
+            },
+            onError: (err) => {
+              if (err instanceof AxiosError && err?.response?.data.response === "LOGIN_FAILED")
+                addWarningToast("이메일 혹은 비밀번호가 틀렸습니다.")
+              else addErrorToast(err.message)
+            },
+          },
+        )
       }}
     >
       <div className="flex flex-col gap-4">

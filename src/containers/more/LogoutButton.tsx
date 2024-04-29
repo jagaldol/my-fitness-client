@@ -11,7 +11,7 @@ export default function LogoutButton() {
   const logout = useLogout()
   const router = useRouter()
   const { addSuccessToast } = useToast()
-  const { mutate, queryClient } = useMutateWithQueryClient(() => axiosInstance.post("/logout"))
+  const { mutate } = useMutateWithQueryClient(() => axiosInstance.post("/logout"))
 
   return (
     <button
@@ -20,7 +20,6 @@ export default function LogoutButton() {
       onClick={() => {
         mutate(null, {
           onSettled: () => {
-            queryClient.invalidateQueries({ queryKey: ["/users/mine"] }).then()
             addSuccessToast("로그아웃 되었습니다.")
             router.replace("/login")
             logout()
