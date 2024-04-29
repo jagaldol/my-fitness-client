@@ -44,7 +44,7 @@ export default function LoginForm() {
   const passwordInputRef = useRef<HTMLInputElement>(null)
   const { addSuccessToast, addWarningToast, addErrorToast } = useToast()
 
-  const { mutate, queryClient } = useMutateWithQueryClient((data) => axiosInstance.post("/logout", data))
+  const { mutate, queryClient } = useMutateWithQueryClient((data) => axiosInstance.post("/login", data))
 
   useEffect(() => {
     const payload = getJwtPayload()

@@ -2,18 +2,21 @@
 
 import React from "react"
 import { MdClose } from "react-icons/md"
-import { useRouter } from "next/navigation"
+import { ModalData } from "@/types/modal"
+import { useSetRecoilState } from "recoil"
+import modalState from "@/states/modalState"
 
 interface Props {
-  title: string
-  children: React.ReactNode
+  modalData: ModalData
   zIndex: number
 }
 
-function Modal({ title, children, zIndex = 100 }: Props) {
-  const router = useRouter()
+function Modal({ modalData, zIndex = 100 }: Props) {
+  const setModalList = useSetRecoilState(modalState)
   const onClose = () => {
-    router.back()
+    setModalList((prev: ModalData[]) => {
+      return prev.filter((item) => item.id !== modalData.id)
+    })
   }
   return (
     <div
@@ -22,7 +25,7 @@ function Modal({ title, children, zIndex = 100 }: Props) {
     >
       <div className="bg-content-box border border-text-gray/10 rounded-2xl shadow-2xl p-3">
         <div className="flex w-full justify-between items-center">
-          <h2 className="text-lg font-GmarketSansMedium mr-7">{title}</h2>
+          <h2 className="text-lg font-GmarketSansMedium mr-7">{modalData.title}</h2>
           <button
             type="button"
             className="hover:brightness-75 transition-all text-2xl font-bold rounded-full"
@@ -33,7 +36,7 @@ function Modal({ title, children, zIndex = 100 }: Props) {
           </button>
         </div>
         <hr />
-        <section className="px-2 py-5">{children}</section>
+        <section className="px-2 py-5">{modalData.body}</section>
       </div>
     </div>
   )

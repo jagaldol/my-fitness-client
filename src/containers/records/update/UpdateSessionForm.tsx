@@ -9,11 +9,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import useToast from "@/hooks/useToast"
 import UpdateSetData from "@/containers/records/update/UpdateSetData"
 import { MdAdd } from "react-icons/md"
+import useModal from "@/hooks/useModal"
+import AddRecordForm from "@/containers/records/update/AddRecordForm"
 
 export default function UpdateSessionForm({ data }: { data: SessionData }) {
   const router = useRouter()
   const { addSuccessToast } = useToast()
   const queryClient = useQueryClient()
+  const { openModal } = useModal()
 
   const { mutate: sessionMutate } = useMutation({
     mutationFn: (body: any) => axiosInstance.put(`/sessions/${data.id}`, body),
@@ -23,7 +26,10 @@ export default function UpdateSessionForm({ data }: { data: SessionData }) {
     sessionMutate(
       { [label]: value },
       {
-        onSuccess: () => queryClient.refetchQueries({ queryKey: [`/sessions/${data.id}`] }).then(),
+        onSuccess: () => {
+          console.log(`/sessions/${data.id}`)
+          queryClient.refetchQueries({ queryKey: [`/sessions/${data.id}`] }).then()
+        },
       },
     )
   }
@@ -70,9 +76,7 @@ export default function UpdateSessionForm({ data }: { data: SessionData }) {
       ))}
       <button
         type="button"
-        onClick={() => {
-          router.push(`/records/update/create-workout?id=${data.id}`, { scroll: false })
-        }}
+        onClick={() => openModal("운동 추가하기", <AddRecordForm />)}
         className="w-full font-bold text-lg text-main-theme flex items-center justify-center"
       >
         <MdAdd />

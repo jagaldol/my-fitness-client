@@ -3,19 +3,20 @@
 import axiosInstance from "@/utils/axiosInstance"
 import React, { useEffect, useState } from "react"
 import useToast from "@/hooks/useToast"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import WorkoutSelector from "@/components/WorkoutSelector"
 import { MdAddCircle, MdDelete, MdEdit } from "react-icons/md"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import useSportsQuery from "@/hooks/useSportsQuery"
 import EditSport from "@/components/sports/EditSport"
 import { AxiosError } from "axios"
+import useModal from "@/hooks/useModal"
 
 export default function AddRecordForm() {
-  const router = useRouter()
   const { addSuccessToast, addErrorToast } = useToast()
   const queryClient = useQueryClient()
   const searchParams = useSearchParams()
+  const { onCloseModal } = useModal()
   const { mutate: postRecordMutate } = useMutation({
     mutationFn: (data: any) => axiosInstance.post(`/sessions/${Number(searchParams.get("id"))}/records`, data),
   })
@@ -48,8 +49,8 @@ export default function AddRecordForm() {
           {
             onSuccess: () => {
               addSuccessToast("운동을 추가하였습니다.")
-              router.back()
               queryClient.refetchQueries({ queryKey: [`/sessions/${Number(searchParams.get("id"))}`] }).then()
+              onCloseModal()
             },
             onError: (err) => {
               if (err instanceof AxiosError) addErrorToast(err?.response?.data.errorMessage)

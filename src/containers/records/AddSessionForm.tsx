@@ -9,9 +9,11 @@ import TimeSelector from "@/components/TimeSelector"
 import useMutateWithQueryClient from "@/hooks/useMutateWithQueryClient"
 import { AxiosError } from "axios"
 import { useRouter } from "next/navigation"
+import useModal from "@/hooks/useModal"
 
 export default function AddSessionForm() {
   const router = useRouter()
+  const { onCloseModal } = useModal()
   const { addSuccessToast, addErrorToast } = useToast()
   const { mutate, queryClient } = useMutateWithQueryClient((data) => axiosInstance.post("/sessions", data))
 
@@ -40,8 +42,9 @@ export default function AddSessionForm() {
         mutate(data, {
           onSuccess: (res) => {
             addSuccessToast("기록이 생성되었습니다.")
-            router.replace(`/records/update?id=${res.data.response.id}`, { scroll: false })
+            router.push(`/records/update?id=${res.data.response.id}`, { scroll: false })
             queryClient.invalidateQueries({ queryKey: ["/sessions"] }).then()
+            onCloseModal()
           },
           onError: (err) => {
             if (err instanceof AxiosError) addErrorToast(err?.response?.data.errorMessage)
