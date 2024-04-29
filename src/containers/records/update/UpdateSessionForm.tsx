@@ -70,7 +70,7 @@ export default function UpdateSessionForm({ data }: { data: SessionData }) {
         <div key={record.id}>
           <hr />
           <h2 className="text-lg my-3">{record.sport.name}</h2>
-          <div className="grid grid-cols-[minmax(0,_1fr)_45px_40px_minmax(0,_1fr)_45px_40px] gap-2 pt-2">
+          <div className="grid items-center grid-cols-[minmax(0,_1fr)_45px_35px_minmax(0,_1fr)_45px_20px_20px] gap-y-4 gap-x-2 pt-2">
             {record.sets.map((set: SetData, idx: number) => (
               <UpdateSetData data={set} sessionId={data.id} idx={idx} key={set.id} />
             ))}

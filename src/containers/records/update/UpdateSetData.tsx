@@ -2,11 +2,18 @@ import React, { useState } from "react"
 import { SetData } from "@/types/record"
 import axiosInstance from "@/utils/axiosInstance"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { MdDelete } from "react-icons/md"
+import useToast from "@/hooks/useToast"
 
 export default function UpdateSetData({ data, sessionId, idx }: { data: SetData; sessionId: number; idx: number }) {
   const queryClient = useQueryClient()
+  const { addSuccessToast } = useToast()
   const { mutate: setDataMutate } = useMutation({
     mutationFn: (body: any) => axiosInstance.put(`/sessions/records/sets/${data.id}`, body),
+  })
+
+  const { mutate: deleteDataMutate } = useMutation({
+    mutationFn: () => axiosInstance.delete(`/sessions/records/sets/${data.id}`),
   })
 
   const [set, setSet] = useState<SetData>(data)
@@ -74,6 +81,20 @@ export default function UpdateSetData({ data, sessionId, idx }: { data: SetData;
           }}
         />
         <span className="text-center">kg</span>
+        <button
+          type="button"
+          aria-label="삭제"
+          onClick={() =>
+            deleteDataMutate(undefined, {
+              onSuccess: () => {
+                queryClient.invalidateQueries({ queryKey: [`/sessions/${sessionId}`] }).then()
+                addSuccessToast("삭제되었습니다.")
+              },
+            })
+          }
+        >
+          <MdDelete className="text-main-theme text-lg" />
+        </button>
       </>
     )
   )
