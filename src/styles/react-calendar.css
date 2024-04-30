@@ -1,0 +1,125 @@
+.react-calendar {
+    width: 100%;
+    border: 1px solid theme("colors.input-box");
+    border-radius: 0.5rem;
+    box-shadow: 4px 2px 10px 3px rgba(0, 0, 0, 0.5);
+    padding: 3% 5%;
+    background-color: theme("colors.content-box");
+    @apply transition-all;
+}
+
+.react-calendar button:enabled:hover {
+    cursor: pointer;
+}
+
+.react-calendar__navigation {
+    display: flex;
+    height: 44px;
+    justify-content: center;
+    @apply font-GmarketSansMedium;
+}
+
+.react-calendar__navigation button {
+    min-width: 35px;
+    background: none;
+}
+
+.react-calendar__navigation button:disabled {
+    @apply text-text-gray;
+}
+
+.react-calendar__navigation button:enabled:hover {
+    @apply brightness-75;
+}
+
+.react-calendar__navigation__label {
+    flex-grow: 0 !important;
+}
+
+.react-calendar__month-view__weekdays {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 0.9em;
+}
+
+.react-calendar__month-view__weekdays abbr {
+    text-decoration: none;
+    font-weight: 800;
+}
+
+.react-calendar__month-view__weekdays__weekday--weekend abbr[title="일요일"] {
+    @apply text-red-700;
+}
+
+.react-calendar__month-view__weekdays__weekday--weekend abbr[title="토요일"] {
+    @apply text-blue-500;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth,
+.react-calendar__decade-view__years__year--neighboringDecade,
+.react-calendar__century-view__decades__decade--neighboringCentury {
+    color: #757575;
+}
+
+.react-calendar__year-view .react-calendar__tile,
+.react-calendar__decade-view .react-calendar__tile,
+.react-calendar__century-view .react-calendar__tile {
+    @apply py-5;
+}
+
+.react-calendar__tile {
+    @apply py-2 border-2 border-transparent rounded-md;
+}
+
+.react-calendar__tile--now {
+    color: #6fb7ff;
+}
+
+.react-calendar__tile:disabled {
+    @apply bg-background;
+    color: #ababab;
+}
+
+.react-calendar__month-view__days__day--neighboringMonth:disabled,
+.react-calendar__decade-view__years__year--neighboringDecade:disabled,
+.react-calendar__century-view__decades__decade--neighboringCentury:disabled {
+    color: #cdcdcd;
+}
+
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+    @apply bg-input-box;
+}
+
+/*.react-calendar__tile--now:enabled:hover,*/
+/*.react-calendar__tile--now:enabled:focus {*/
+/*    @apply bg-main-theme;*/
+/*}*/
+
+.react-calendar__tile--hasActive {
+    color: #6fb7ff;
+}
+
+
+.react-calendar__tile--active {
+    @apply border-main-theme;
+}
+
+
+.react-calendar--selectRange .react-calendar__tile--hover {
+    background-color: #e6e6e6;
+}
+
+.react-calendar--doubleView {
+    width: 500px;
+}
+
+.react-calendar--doubleView .react-calendar__viewContainer {
+    display: flex;
+    margin: -0.5em;
+}
+
+.react-calendar--doubleView .react-calendar__viewContainer > * {
+    width: 50%;
+    margin: 0.5em;
+}

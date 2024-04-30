@@ -1,5 +1,4 @@
 import { SetStateAction } from "react"
-import "react-calendar/dist/Calendar.css"
 import Dropdown from "@/components/Dropdown"
 import useSportsQuery from "@/hooks/useSportsQuery"
 

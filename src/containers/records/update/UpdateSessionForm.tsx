@@ -43,7 +43,7 @@ export default function UpdateSessionForm({ data }: { data: SessionData }) {
         <div className="flex items-center">
           <span className="w-20">날짜</span>
           <div className="flex items-center gap-2">
-            <DatePicker setDate={(value) => updateSession("date", formatDateToStringDash(value))} />
+            <DatePicker date={data.date} setDate={(value) => updateSession("date", formatDateToStringDash(value))} />
             <span>{formatDateToString(convertDateString(data.date))}</span>
           </div>
         </div>

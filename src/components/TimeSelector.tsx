@@ -1,4 +1,3 @@
-import "react-calendar/dist/Calendar.css"
 import Dropdown from "@/components/Dropdown"
 
 interface Props {

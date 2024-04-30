@@ -57,7 +57,7 @@ export default function AddSessionForm() {
         <div className="flex items-center">
           <span className="w-20">날짜</span>
           <div className="flex items-center gap-2">
-            <DatePicker setDate={setDate} />
+            <DatePicker date={date} setDate={setDate} />
             <span>{formatDateToString(date)}</span>
           </div>
         </div>

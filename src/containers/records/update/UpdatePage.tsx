@@ -14,6 +14,7 @@ export default function UpdatePage() {
       const res = await axiosInstance.get(`/sessions/${Number(searchParams.get("id"))}`)
       return res.data.response.session
     },
+    refetchInterval: 30_000,
   })
 
   if (!isFetched) return null
