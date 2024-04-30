@@ -1,12 +1,11 @@
-import { SetStateAction } from "react"
 import "react-calendar/dist/Calendar.css"
 import Dropdown from "@/components/Dropdown"
 
 interface Props {
   hour: number
   minute: number
-  setHour: React.Dispatch<SetStateAction<number>>
-  setMinute: React.Dispatch<SetStateAction<number>>
+  setHour: (value: number) => void
+  setMinute: (value: number) => void
 }
 
 export default function TimeSelector({ hour, minute, setHour, setMinute }: Props) {

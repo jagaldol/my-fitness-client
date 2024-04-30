@@ -26,7 +26,7 @@ export default function UpdateSessionForm({ data }: { data: SessionData }) {
     mutationFn: (id: number) => axiosInstance.post(`/sessions/records/${id}/sets`, {}),
   })
 
-  const setOneData = (label: string, value: any) => {
+  const updateSession = (label: string, value: any) => {
     sessionMutate(
       { [label]: value },
       {
@@ -43,7 +43,7 @@ export default function UpdateSessionForm({ data }: { data: SessionData }) {
         <div className="flex items-center">
           <span className="w-20">날짜</span>
           <div className="flex items-center gap-2">
-            <DatePicker setDate={(value) => setOneData("date", formatDateToStringDash(value))} />
+            <DatePicker setDate={(value) => updateSession("date", formatDateToStringDash(value))} />
             <span>{formatDateToString(convertDateString(data.date))}</span>
           </div>
         </div>
@@ -52,8 +52,18 @@ export default function UpdateSessionForm({ data }: { data: SessionData }) {
           <TimeSelector
             hour={data.startTime ? parseInt(data.startTime.split(":")[0], 10) : -1}
             minute={data.startTime ? parseInt(data.startTime.split(":")[1], 10) : -1}
-            setHour={(value) => setOneData("startHour", value)}
-            setMinute={(value) => setOneData("startMinute", value)}
+            setHour={(value) =>
+              updateSession(
+                "startTime",
+                `${value.toString().padStart(2, "0")}:${data.startTime ? data.startTime.split(":")[1] : "00"}`,
+              )
+            }
+            setMinute={(value) =>
+              updateSession(
+                "startTime",
+                `${data.startTime ? data.startTime.split(":")[0] : "00"}:${value.toString().padStart(2, "0")}`,
+              )
+            }
           />
         </div>
         <div className="flex items-center">
@@ -61,8 +71,18 @@ export default function UpdateSessionForm({ data }: { data: SessionData }) {
           <TimeSelector
             hour={data.endTime ? parseInt(data.endTime.split(":")[0], 10) : -1}
             minute={data.endTime ? parseInt(data.endTime.split(":")[1], 10) : -1}
-            setHour={(value) => setOneData("endHour", value)}
-            setMinute={(value) => setOneData("endMinute", value)}
+            setHour={(value) =>
+              updateSession(
+                "endTime",
+                `${value.toString().padStart(2, "0")}:${data.endTime ? data.endTime.split(":")[1] : "00"}`,
+              )
+            }
+            setMinute={(value) =>
+              updateSession(
+                "endTime",
+                `${data.endTime ? data.endTime.split(":")[0] : "00"}:${value.toString().padStart(2, "0")}`,
+              )
+            }
           />
         </div>
       </div>
