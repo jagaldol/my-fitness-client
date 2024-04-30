@@ -35,6 +35,7 @@ export default function UpdateSetData({ data, sessionId, idx }: { data: SetData;
         <input
           className="text-end bg-input-box px-1 rounded-sm"
           value={set.count}
+          onFocus={(e) => e.target.select()}
           onChange={(e) => {
             const value = Number(e.target.value)
             if (!isNaN(value)) {
@@ -51,6 +52,7 @@ export default function UpdateSetData({ data, sessionId, idx }: { data: SetData;
         <input
           className="text-center bg-input-box px-1 rounded-sm"
           value={set.countUnit}
+          onFocus={(e) => e.target.select()}
           onBlur={() => {
             if (data.countUnit !== set.countUnit) onBlurred("countUnit", set.countUnit)
           }}
@@ -67,6 +69,7 @@ export default function UpdateSetData({ data, sessionId, idx }: { data: SetData;
         <input
           className="text-end bg-input-box px-1 rounded-sm"
           value={set.weight}
+          onFocus={(e) => e.target.select()}
           onChange={(e) => {
             const value = Number(e.target.value)
             if (!isNaN(value)) {

@@ -30,10 +30,8 @@
         @apply border-text-gray;
     }
 
-    abbr[title] {
-        border-bottom: none !important;
-        cursor: inherit !important;
-        text-decoration: none !important;
+    input:focus {
+        outline: none;
     }
 }
 
