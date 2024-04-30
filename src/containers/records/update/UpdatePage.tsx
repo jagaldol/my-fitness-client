@@ -12,7 +12,6 @@ export default function UpdatePage() {
     queryKey: [`/sessions/${Number(searchParams.get("id"))}`],
     queryFn: async () => {
       const res = await axiosInstance.get(`/sessions/${Number(searchParams.get("id"))}`)
-      console.log(res)
       return res.data.response.session
     },
   })

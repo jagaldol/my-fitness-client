@@ -41,10 +41,10 @@ export default function AddSessionForm() {
         }
         mutate(data, {
           onSuccess: (res) => {
+            onCloseModal(`/records/update?id=${res.data.response.id}`)
             addSuccessToast("기록이 생성되었습니다.")
             router.push(`/records/update?id=${res.data.response.id}`, { scroll: false })
             queryClient.invalidateQueries({ queryKey: ["/sessions"] }).then()
-            onCloseModal()
           },
           onError: (err) => {
             if (err instanceof AxiosError) addErrorToast(err?.response?.data.errorMessage)

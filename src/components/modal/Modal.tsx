@@ -3,8 +3,7 @@
 import React from "react"
 import { MdClose } from "react-icons/md"
 import { ModalData } from "@/types/modal"
-import { useSetRecoilState } from "recoil"
-import modalState from "@/states/modalState"
+import useModal from "@/hooks/useModal"
 
 interface Props {
   modalData: ModalData
@@ -12,12 +11,7 @@ interface Props {
 }
 
 function Modal({ modalData, zIndex = 100 }: Props) {
-  const setModalList = useSetRecoilState(modalState)
-  const onClose = () => {
-    setModalList((prev: ModalData[]) => {
-      return prev.filter((item) => item.id !== modalData.id)
-    })
-  }
+  const { onCloseModal } = useModal()
   return (
     <div
       style={{ zIndex }}
@@ -29,7 +23,7 @@ function Modal({ modalData, zIndex = 100 }: Props) {
           <button
             type="button"
             className="hover:brightness-75 transition-all text-2xl font-bold rounded-full"
-            onClick={onClose}
+            onClick={() => onCloseModal()}
             aria-label="Modal Close"
           >
             <MdClose />
