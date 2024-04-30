@@ -8,22 +8,27 @@ import axiosInstance from "@/utils/axiosInstance"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import useToast from "@/hooks/useToast"
 import UpdateSetData from "@/containers/records/update/UpdateSetData"
-import { MdAdd } from "react-icons/md"
+import { MdAdd, MdDelete, MdEdit } from "react-icons/md"
 import useModal from "@/hooks/useModal"
 import AddRecordForm from "@/containers/records/update/AddRecordForm"
+import UpdateRecordForm from "@/containers/records/update/UpdateRecordForm"
 
-export default function UpdateSessionForm({ data }: { data: SessionData }) {
+export default function UpdateSessionForm({ data, sessionId }: { data: SessionData; sessionId: number }) {
   const router = useRouter()
   const { addSuccessToast } = useToast()
   const queryClient = useQueryClient()
   const { openModal } = useModal()
 
   const { mutate: sessionMutate } = useMutation({
-    mutationFn: (body: any) => axiosInstance.put(`/sessions/${data.id}`, body),
+    mutationFn: (body: any) => axiosInstance.put(`/sessions/${sessionId}`, body),
   })
 
   const { mutate: postSetRecord } = useMutation({
     mutationFn: (id: number) => axiosInstance.post(`/sessions/records/${id}/sets`, {}),
+  })
+
+  const { mutate: deleteRecordMutate } = useMutation({
+    mutationFn: (id: number) => axiosInstance.delete(`/sessions/records/${id}`),
   })
 
   const updateSession = (label: string, value: any) => {
@@ -31,7 +36,7 @@ export default function UpdateSessionForm({ data }: { data: SessionData }) {
       { [label]: value },
       {
         onSuccess: () => {
-          queryClient.refetchQueries({ queryKey: [`/sessions/${data.id}`] }).then()
+          queryClient.refetchQueries({ queryKey: [`/sessions/${sessionId}`] }).then()
         },
       },
     )
@@ -89,10 +94,36 @@ export default function UpdateSessionForm({ data }: { data: SessionData }) {
       {data.records.map((record: Record) => (
         <div key={record.id}>
           <hr />
-          <h2 className="text-lg my-3">{record.sport.name}</h2>
+          <div className="flex text-lg my-3 gap-2">
+            <h2 className="">{record.sport.name}</h2>
+            <button
+              type="button"
+              aria-label="수정"
+              onClick={() =>
+                openModal("운동 수정하기", <UpdateRecordForm recordId={record.id} currentId={record.sport.id} />)
+              }
+            >
+              <MdEdit className="text-main-theme" />
+            </button>
+            <button
+              type="button"
+              aria-label="삭제"
+              onClick={() =>
+                deleteRecordMutate(record.id, {
+                  onSuccess: () => {
+                    queryClient.refetchQueries({ queryKey: [`/sessions/${sessionId}`] }).then()
+                    addSuccessToast("삭제되었습니다.")
+                  },
+                })
+              }
+            >
+              <MdDelete className="text-main-theme" />
+            </button>
+          </div>
+
           <div className="grid items-center grid-cols-[minmax(0,_1fr)_45px_35px_minmax(0,_1fr)_45px_20px_20px] gap-y-4 gap-x-2 pt-2">
             {record.sets.map((set: SetData, idx: number) => (
-              <UpdateSetData data={set} sessionId={data.id} idx={idx} key={set.id} />
+              <UpdateSetData data={set} sessionId={sessionId} idx={idx} key={set.id} />
             ))}
           </div>
           <button
@@ -100,7 +131,7 @@ export default function UpdateSessionForm({ data }: { data: SessionData }) {
             onClick={() =>
               postSetRecord(record.id, {
                 onSuccess: () => {
-                  queryClient.refetchQueries({ queryKey: [`/sessions/${data.id}`] }).then()
+                  queryClient.refetchQueries({ queryKey: [`/sessions/${sessionId}`] }).then()
                   addSuccessToast("세트를 생성했습니다.")
                 },
               })
@@ -126,7 +157,7 @@ export default function UpdateSessionForm({ data }: { data: SessionData }) {
         type="button"
         onClick={() => {
           addSuccessToast("저장되었습니다.")
-          router.back()
+          router.push("/", { scroll: false })
         }}
         className="w-full h-10 rounded-full bg-main-theme"
       >

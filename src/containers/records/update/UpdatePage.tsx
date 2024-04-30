@@ -19,5 +19,9 @@ export default function UpdatePage() {
 
   if (!isFetched) return null
 
-  return !isError && data ? <UpdateSessionForm data={data} /> : <p>권한이 없습니다.</p>
+  return !isError && data ? (
+    <UpdateSessionForm data={data} sessionId={Number(searchParams.get("id"))} />
+  ) : (
+    <p>권한이 없습니다.</p>
+  )
 }
