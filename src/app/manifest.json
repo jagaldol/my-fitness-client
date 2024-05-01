@@ -1,0 +1,15 @@
+{
+  "name": "Fitness | Behind",
+  "short_name": "Fitness",
+  "description": "당신만을 위한 비하인드 운동 관리 프로젝트",
+  "icons": [
+    {
+      "src": "/icon3.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#4064F6",
+  "background_color": "#131623",
+  "display": "standalone"
+}
