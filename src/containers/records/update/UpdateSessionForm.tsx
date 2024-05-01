@@ -95,7 +95,7 @@ export default function UpdateSessionForm({ data, sessionId }: { data: SessionDa
         <div key={record.id}>
           <hr />
           <div className="flex text-lg my-3 gap-2">
-            <h2 className="">{record.sport.name}</h2>
+            <h2>{record.sport.name}</h2>
             <button
               type="button"
               aria-label="수정"

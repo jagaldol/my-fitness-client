@@ -18,7 +18,7 @@
 
 @layer base {
     body {
-        @apply bg-background text-text font-SUITRegular text-sm;
+        @apply bg-background text-text font-SUITRegular;
         -ms-overflow-style: none;
     }
 

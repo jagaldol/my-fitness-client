@@ -21,7 +21,7 @@ export default function SessionBox({ session }: { session: SessionData }) {
   return (
     <ContentBox>
       <div className="pt-3 flex items-center text-xl gap-3">
-        <h2 className=" font-bold">{`${date.getMonth() + 1}월 ${date.getDate()}일(${getKoreanDay(date.getDay())})`}</h2>
+        <h2 className="font-bold">{`${date.getMonth() + 1}월 ${date.getDate()}일(${getKoreanDay(date.getDay())})`}</h2>
         {isOpen && (
           <>
             <Link href={`/records/update?id=${session.id}`}>
@@ -54,18 +54,18 @@ export default function SessionBox({ session }: { session: SessionData }) {
       </div>
       <hr />
       <div className="p-2">
-        <p className="text-xs text-end">{`${convertTimeString(session.startTime)} ~ ${convertTimeString(session.endTime)}`}</p>
+        <p className="text-sm text-end">{`${convertTimeString(session.startTime)} ~ ${convertTimeString(session.endTime)}`}</p>
         {session.records.map((record: Record) => (
           <div className="py-2" key={record.id}>
             {isOpen ? (
               <div className="flex flex-col">
-                <h3 className="text-base min-w-32 font-bold">{record.sport.name}</h3>
-                <div className="grid grid-cols-4 gap-y-2 pt-2 w-2/3 ">
+                <h3 className="text-lg min-w-32">{record.sport.name}</h3>
+                <div className="grid grid-cols-[minmax(0,_2fr)_minmax(0,_2fr)_minmax(0,_3fr)_minmax(0,_2fr)] gap-y-2 pt-2 md:w-2/3">
                   {record.sets.map((set: SetData, idx: number) => (
                     <React.Fragment key={set.id}>
                       <span className="text-text-gray">{`${idx + 1}세트`}</span>
                       <span className="text-end">{`${set.count}${set.countUnit}`}</span>
-                      <span className="text-text-gray pl-5">무게</span>
+                      <span className="text-text-gray text-center">무게</span>
                       <span className="text-end">{`${set.weight}kg`}</span>
                     </React.Fragment>
                   ))}
@@ -73,7 +73,7 @@ export default function SessionBox({ session }: { session: SessionData }) {
               </div>
             ) : (
               <div className="flex items-baseline">
-                <h3 className="text-base min-w-32">{record.sport.name}</h3>
+                <h3 className="text-lg min-w-32">{record.sport.name}</h3>
                 <span className="pl-5 text-text-gray">{`${record.sets.length}세트`}</span>
               </div>
             )}

@@ -33,7 +33,7 @@ export default function UpdateSetData({ data, sessionId, idx }: { data: SetData;
       <>
         <span className="text-text-gray">{`${idx + 1}세트`}</span>
         <input
-          className="text-end bg-input-box px-1 rounded-sm"
+          className="text-end bg-input-box p-1 rounded-md"
           type="number"
           value={set.count}
           onFocus={(e) => {
@@ -55,7 +55,7 @@ export default function UpdateSetData({ data, sessionId, idx }: { data: SetData;
           }}
         />
         <input
-          className="text-center bg-input-box px-1 rounded-sm"
+          className="text-center bg-input-box p-1 rounded-md"
           value={set.countUnit}
           onChange={(e) => {
             if (e.target.value.length <= 2) {
@@ -71,7 +71,7 @@ export default function UpdateSetData({ data, sessionId, idx }: { data: SetData;
         />
         <span className="text-text-gray pl-5 max-md:pl-2">무게</span>
         <input
-          className="text-end bg-input-box px-1 rounded-sm"
+          className="text-end bg-input-box p-1 rounded-md"
           type="number"
           value={set.weight}
           onFocus={(e) => {
