@@ -34,28 +34,29 @@ export default function UpdateSetData({ data, sessionId, idx }: { data: SetData;
         <span className="text-text-gray">{`${idx + 1}세트`}</span>
         <input
           className="text-end bg-input-box px-1 rounded-sm"
+          type="number"
           value={set.count}
-          onFocus={(e) => e.target.select()}
+          onFocus={(e) => {
+            if (e.target.value === "0") e.target.value = ""
+          }}
           onChange={(e) => {
-            const value = Number(e.target.value)
-            if (!isNaN(value)) {
-              setSet((prevState) => ({
-                ...prevState,
-                count: value,
-              }))
-            }
+            setSet((prevState) => ({
+              ...prevState,
+              count: Number(e.target.value),
+            }))
           }}
           onBlur={() => {
+            if (!set.count)
+              setSet((prevState) => ({
+                ...prevState,
+                count: 0,
+              }))
             if (data.count !== set.count) onBlurred("count", set.count)
           }}
         />
         <input
           className="text-center bg-input-box px-1 rounded-sm"
           value={set.countUnit}
-          onFocus={(e) => e.target.select()}
-          onBlur={() => {
-            if (data.countUnit !== set.countUnit) onBlurred("countUnit", set.countUnit)
-          }}
           onChange={(e) => {
             if (e.target.value.length <= 2) {
               setSet((prevState) => ({
@@ -64,23 +65,31 @@ export default function UpdateSetData({ data, sessionId, idx }: { data: SetData;
               }))
             }
           }}
+          onBlur={() => {
+            if (data.countUnit !== set.countUnit) onBlurred("countUnit", set.countUnit)
+          }}
         />
         <span className="text-text-gray pl-5 max-md:pl-2">무게</span>
         <input
           className="text-end bg-input-box px-1 rounded-sm"
+          type="number"
           value={set.weight}
-          onFocus={(e) => e.target.select()}
+          onFocus={(e) => {
+            if (e.target.value === "0") e.target.value = ""
+          }}
           onChange={(e) => {
-            const value = Number(e.target.value)
-            if (!isNaN(value)) {
-              setSet((prevState) => ({
-                ...prevState,
-                weight: value,
-              }))
-            }
+            setSet((prevState) => ({
+              ...prevState,
+              weight: Number(e.target.value),
+            }))
           }}
           onBlur={() => {
-            if (data.weight !== set.weight) onBlurred("weight", set.weight)
+            if (!set.weight)
+              setSet((prevState) => ({
+                ...prevState,
+                weight: 0,
+              }))
+            if (data.weight !== set.weight) onBlurred("count", set.weight)
           }}
         />
         <span className="text-center">kg</span>
