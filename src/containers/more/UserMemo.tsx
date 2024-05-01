@@ -8,8 +8,8 @@ export default function UserMemo() {
   const { userInfo, isSuccess } = useUserInfoQuery()
 
   useEffect(() => {
-    if (isSuccess && userInfo.response.memo) {
-      setMemo(userInfo.response.memo)
+    if (isSuccess && userInfo.memo) {
+      setMemo(userInfo.memo)
     }
   }, [userInfo, isSuccess])
 

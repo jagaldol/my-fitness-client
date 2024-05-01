@@ -9,9 +9,9 @@ export default function UserName() {
 
   useEffect(() => {
     if (isSuccess) {
-      setUserName(userInfo.response.name)
+      setUserName(userInfo.name)
     }
   }, [userInfo, isSuccess])
 
-  return <span className="font-GmarketSansMedium text-xl pt-2">{userName}</span>
+  return <span>{userName}</span>
 }

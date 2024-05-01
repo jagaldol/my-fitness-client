@@ -66,7 +66,8 @@ export default function UpdateSetData({ data, sessionId, idx }: { data: SetData;
             }
           }}
           onBlur={() => {
-            if (data.countUnit !== set.countUnit) onBlurred("countUnit", set.countUnit)
+            if (set.countUnit.trim() !== "" && data.countUnit !== set.countUnit)
+              onBlurred("countUnit", set.countUnit.trim())
           }}
         />
         <span className="text-text-gray pl-5 max-md:pl-2">무게</span>
