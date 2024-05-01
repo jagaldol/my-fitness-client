@@ -30,14 +30,16 @@ export default function SessionBox({ session }: { session: SessionData }) {
             <button
               type="button"
               aria-label="삭제"
-              onClick={() =>
-                mutate(null, {
-                  onSuccess: () => {
-                    queryClient.refetchQueries({ queryKey: ["/sessions"] }).then()
-                    addSuccessToast("삭제되었습니다.")
-                  },
-                })
-              }
+              onClick={() => {
+                if (confirm("정말 삭제하시겠습니까?")) {
+                  mutate(null, {
+                    onSuccess: () => {
+                      queryClient.refetchQueries({ queryKey: ["/sessions"] }).then()
+                      addSuccessToast("삭제되었습니다.")
+                    },
+                  })
+                }
+              }}
             >
               <MdDelete className="text-main-theme" />
             </button>

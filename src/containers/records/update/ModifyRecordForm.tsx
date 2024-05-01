@@ -14,17 +14,37 @@ export default function ModifyRecordForm({ currentId, onSubmitMutate }: { curren
   const { addSuccessToast, addErrorToast } = useToast()
   const queryClient = useQueryClient()
 
-  const { mutate: postSportMutate } = useMutation({
-    mutationFn: (data: any) => axiosInstance.post("/sports", data),
-  })
-  const { mutate: deleteSportMutate } = useMutation({
-    mutationFn: (id: number) => axiosInstance.delete(`/sports/${id}`),
-  })
   const { data: sports, isFetched } = useSportsQuery()
 
   const [sportId, setSportId] = useState(currentId)
   const [sportName, setSportName] = useState("")
   const [editOpen, setEditOpen] = useState(false)
+
+  const { mutate: postSportMutate } = useMutation({
+    mutationFn: (data: any) => axiosInstance.post("/sports", data),
+    onSuccess: (res) => {
+      queryClient.refetchQueries({ queryKey: ["/sports"] }).then()
+      setSportId(res.data.response.id)
+    },
+    onError: (err) => {
+      if (err instanceof AxiosError && err?.response?.data.response === "DUPLICATED_DATA")
+        addErrorToast("이미 존재하는 이름입니다.")
+      else addErrorToast(err.message)
+    },
+  })
+  const { mutate: deleteSportMutate } = useMutation({
+    mutationFn: (id: number) => axiosInstance.delete(`/sports/${id}`),
+    onSuccess: () => {
+      setSportId(-1)
+      queryClient.refetchQueries({ queryKey: ["/sports"] }).then()
+      addSuccessToast("삭제되었습니다.")
+    },
+    onError: (err) => {
+      if (err instanceof AxiosError && err?.response?.data.response === "REFERENCED_DATA_EXISTS")
+        addErrorToast("사용 중인 데이터입니다.")
+      else addErrorToast(err.message)
+    },
+  })
 
   useEffect(() => {
     if (isFetched && sportId > 0) {
@@ -63,20 +83,7 @@ export default function ModifyRecordForm({ currentId, onSubmitMutate }: { curren
                 aria-label="추가"
                 onClick={() => {
                   if (sportName && sportName !== "") {
-                    postSportMutate(
-                      { name: sportName },
-                      {
-                        onSuccess: (res) => {
-                          queryClient.refetchQueries({ queryKey: ["/sports"] }).then()
-                          setSportId(res.data.response.id)
-                        },
-                        onError: (err) => {
-                          if (err instanceof AxiosError && err?.response?.data.response === "DUPLICATED_DATA")
-                            addErrorToast("이미 존재하는 이름입니다.")
-                          else addErrorToast(err.message)
-                        },
-                      },
-                    )
+                    postSportMutate({ name: sportName })
                   }
                 }}
               >
@@ -104,15 +111,9 @@ export default function ModifyRecordForm({ currentId, onSubmitMutate }: { curren
               <button
                 type="button"
                 onClick={() => {
-                  deleteSportMutate(sportId, {
-                    onSuccess: () => {
-                      setSportId(-1)
-                      addSuccessToast("삭제되었습니다.")
-                    },
-                    onError: () => {
-                      addErrorToast("삭제할 수 없습니다.")
-                    },
-                  })
+                  if (confirm("기록이 존재하는 종목은 삭제할 수 없습니다. 정말 삭제하시겠습니까?")) {
+                    deleteSportMutate(sportId)
+                  }
                 }}
                 className="font-bold text-base text-main-theme flex items-center justify-center gap-1"
               >

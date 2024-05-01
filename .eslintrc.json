@@ -32,6 +32,7 @@
     // eslint-config-prettier prettier와 중복된 eslint 규칙 제거
   ],
   "rules": {
+    "no-alert": "off",
     "no-restricted-globals": [
       "off",
       "confirm"
