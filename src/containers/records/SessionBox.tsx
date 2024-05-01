@@ -33,7 +33,7 @@ export default function SessionBox({ session }: { session: SessionData }) {
           <h2 className="font-bold">{`${date.getMonth() + 1}월 ${date.getDate()}일(${getKoreanDay(date.getDay())})`}</h2>
           {isOpen && (
             <>
-              <Link className="text-main-theme z-10" href={`/records/update?id=${session.id}`}>
+              <Link className="text-main-theme z-10" href={`/update-record?id=${session.id}`}>
                 <MdEdit />
               </Link>
               <button

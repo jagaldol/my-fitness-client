@@ -41,9 +41,9 @@ export default function AddSessionForm() {
         }
         mutate(data, {
           onSuccess: (res) => {
-            onCloseModal(`/records/update?id=${res.data.response.id}`)
+            onCloseModal(`/update-record?id=${res.data.response.id}`)
             addSuccessToast("기록이 생성되었습니다.")
-            router.push(`/records/update?id=${res.data.response.id}`, { scroll: false })
+            router.push(`/update-record?id=${res.data.response.id}`, { scroll: false })
             queryClient.invalidateQueries({ queryKey: ["/sessions"] }).then()
           },
           onError: (err) => {
