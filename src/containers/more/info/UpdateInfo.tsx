@@ -4,10 +4,14 @@ import React, { useCallback, useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import useToast from "@/hooks/useToast"
 import useUserInfoQuery from "@/hooks/useUserInfoQuery"
+import { MdPassword } from "react-icons/md"
+import useModal from "@/hooks/useModal"
+import UpdatePasswordForm from "@/containers/more/info/UpdatePasswordForm"
 
 export default function UpdateInfo() {
   const router = useRouter()
   const { addSuccessToast } = useToast()
+  const { openModal } = useModal()
 
   const { userInfo, updateUserInfo } = useUserInfoQuery()
 
@@ -65,6 +69,19 @@ export default function UpdateInfo() {
         <span>이메일</span>
         <span className="p-2 h-10">{userInfo?.email}</span>
       </div>
+      <div className="flex justify-end">
+        <button
+          type="button"
+          onClick={() => {
+            openModal("비밀번호 변경", <UpdatePasswordForm />)
+          }}
+          className="flex items-center justify-center gap-1 w-40 h-8 rounded-full bg-main-theme"
+        >
+          <MdPassword />
+          <span>비밀번호 변경</span>
+        </button>
+      </div>
+
       <button
         type="button"
         onClick={() => {
