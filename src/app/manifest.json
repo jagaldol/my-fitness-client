@@ -7,9 +7,38 @@
       "src": "/icon3.png",
       "sizes": "144x144",
       "type": "image/png"
+    },
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon2.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon1.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/1.png",
+      "sizes": "1920x1080",
+      "type": "image/png",
+      "form_factor": "wide"
+    },
+    {
+      "src": "/screenshots/2.png",
+      "sizes": "360x780",
+      "type": "image/png"
     }
   ],
   "theme_color": "#4064F6",
   "background_color": "#131623",
+  "start_url": "/",
   "display": "standalone"
 }
