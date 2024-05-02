@@ -35,9 +35,9 @@ export default function MainRecordContainer() {
       page.sessions.map((session: SessionData) => <MainSessionItem key={session.id} session={session} />),
     )
   ) : (
-    <div className="h-40">
+    <>
       <hr />
-      <p className="mt-10 text-center">기록이 존재하지 않습니다.</p>
-    </div>
+      <p className="mt-7 text-center">기록이 존재하지 않습니다.</p>
+    </>
   )
 }
