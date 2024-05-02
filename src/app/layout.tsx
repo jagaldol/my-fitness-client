@@ -1,5 +1,6 @@
 import React from "react"
 import "@/styles/globals.css"
+import "@/styles/react-calendar.css"
 import RecoilRootWrapper from "@/wrappers/RecoilRootWrapper"
 import QueryClientProviderWrapper from "@/wrappers/QueryClientProviderWrapper"
 import Toast from "@/components/toast/Toast"

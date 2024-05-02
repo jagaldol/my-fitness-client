@@ -12,12 +12,16 @@ import { MdAdd, MdDelete, MdEdit } from "react-icons/md"
 import useModal from "@/hooks/useModal"
 import AddRecordForm from "@/containers/records/update/AddRecordForm"
 import UpdateRecordForm from "@/containers/records/update/UpdateRecordForm"
+import { useSetRecoilState } from "recoil"
+import selectedDateState from "@/states/selectedDateState"
+import moment from "moment"
 
 export default function UpdateSessionForm({ data, sessionId }: { data: SessionData; sessionId: number }) {
   const router = useRouter()
   const { addSuccessToast } = useToast()
   const queryClient = useQueryClient()
   const { openModal } = useModal()
+  const setSelectedDate = useSetRecoilState(selectedDateState)
 
   const { mutate: sessionMutate } = useMutation({
     mutationFn: (body: any) => axiosInstance.put(`/sessions/${sessionId}`, body),
@@ -156,6 +160,7 @@ export default function UpdateSessionForm({ data, sessionId }: { data: SessionDa
       <button
         type="button"
         onClick={() => {
+          setSelectedDate(moment(data.date, "YYYY-MM-DD").toDate())
           addSuccessToast("저장되었습니다.")
           router.push("/", { scroll: false })
         }}

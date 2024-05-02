@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import "@/styles/react-calendar.css"
 import Calendar from "react-calendar"
 import { MdCalendarMonth } from "react-icons/md"
 import moment from "moment"
@@ -23,7 +22,7 @@ export default function DatePicker({ date, setDate }: Props) {
         <MdCalendarMonth />
       </button>
       {isOpen && (
-        <div className="absolute top-full -left-5 w-[250px]">
+        <div className="absolute top-full -left-5 w-[250px] h-[300px] date-picker">
           <Calendar
             locale="ko"
             calendarType="gregory"

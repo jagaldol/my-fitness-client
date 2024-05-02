@@ -11,13 +11,13 @@ import { AxiosError } from "axios"
 import { useRouter } from "next/navigation"
 import useModal from "@/hooks/useModal"
 
-export default function AddSessionForm() {
+export default function AddSessionForm({ defaultDate }: { defaultDate: Date }) {
   const router = useRouter()
   const { onCloseModal } = useModal()
   const { addSuccessToast, addErrorToast } = useToast()
   const { mutate, queryClient } = useMutateWithQueryClient((data) => axiosInstance.post("/sessions", data))
 
-  const [date, setDate] = useState(new Date())
+  const [date, setDate] = useState(defaultDate)
   const [startHour, setStartHour] = useState(-1)
   const [startMinute, setStartMinute] = useState(-1)
   const [endHour, setEndHour] = useState(-1)

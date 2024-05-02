@@ -12,7 +12,7 @@ export default function RecordsContainer() {
     initialPageParam: 1,
     queryKey: ["/sessions"],
     queryFn: async ({ pageParam = 1 }) => {
-      const params = { page: pageParam, size: 1 }
+      const params = { page: pageParam }
 
       try {
         const res = await axiosInstance.get("/sessions", { params })
