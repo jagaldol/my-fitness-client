@@ -100,6 +100,21 @@
     @apply border-2 border-transparent rounded-md;
 }
 
+.react-calendar__tile-marker {
+    position: relative;
+}
+
+.react-calendar__tile-marker::after {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    top: calc(70%);
+    left: calc(50% - 4px);
+    content: "";
+    display: block;
+    @apply bg-main-theme rounded-full;
+}
+
 .react-calendar__tile--now {
     color: #6fb7ff;
     font-weight: bold;
