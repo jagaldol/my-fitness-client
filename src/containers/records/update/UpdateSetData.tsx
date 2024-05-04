@@ -90,7 +90,7 @@ export default function UpdateSetData({ data, sessionId, idx }: { data: SetData;
                 ...prevState,
                 weight: 0,
               }))
-            if (data.weight !== set.weight) onBlurred("count", set.weight)
+            if (data.weight !== set.weight) onBlurred("weight", set.weight)
           }}
         />
         <span className="text-center">kg</span>
