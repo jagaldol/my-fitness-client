@@ -56,34 +56,36 @@ export default function MainCalendar() {
   })
 
   return (
-    <Calendar
-      inputRef={handlers.ref}
-      locale="ko"
-      activeStartDate={activeStartDateState}
-      view={viewState}
-      onViewChange={({ view }) => setViewState(view)}
-      calendarType="gregory"
-      next2Label={null}
-      prev2Label={null}
-      minDetail="year"
-      formatDay={(locale, date) => moment(date).format("D")}
-      formatMonthYear={(locale, date) => moment(date).format("YYYY. MM")}
-      formatYear={(locale, date) => moment(date).format("YYYY")}
-      tileClassName={({ date, view }) => {
-        if (isFetched && view === "month" && data && data.includes(moment(date).format("YYYY-MM-DD")))
-          return "react-calendar__tile-marker"
-        return ""
-      }}
-      value={selectedDate}
-      onActiveStartDateChange={({ activeStartDate, view }) => {
-        if (activeStartDate) setActiveStartDateState(activeStartDate)
-        if (view === "month") {
-          setParams({ month: moment(activeStartDate).format("YYYY-MM") })
-        }
-      }}
-      onChange={(selectedData) => {
-        setSelectedDate(selectedData as Date)
-      }}
-    />
+    isFetched && (
+      <Calendar
+        inputRef={handlers.ref}
+        locale="ko"
+        activeStartDate={activeStartDateState}
+        view={viewState}
+        onViewChange={({ view }) => setViewState(view)}
+        calendarType="gregory"
+        next2Label={null}
+        prev2Label={null}
+        minDetail="year"
+        formatDay={(locale, date) => moment(date).format("D")}
+        formatMonthYear={(locale, date) => moment(date).format("YYYY. MM")}
+        formatYear={(locale, date) => moment(date).format("YYYY")}
+        tileClassName={({ date, view }) => {
+          if (view === "month" && data && data.includes(moment(date).format("YYYY-MM-DD")))
+            return "react-calendar__tile-marker"
+          return ""
+        }}
+        value={selectedDate}
+        onActiveStartDateChange={({ activeStartDate, view }) => {
+          if (activeStartDate) setActiveStartDateState(activeStartDate)
+          if (view === "month") {
+            setParams({ month: moment(activeStartDate).format("YYYY-MM") })
+          }
+        }}
+        onChange={(selectedData) => {
+          setSelectedDate(selectedData as Date)
+        }}
+      />
+    )
   )
 }
