@@ -19,7 +19,7 @@ export interface Sport {
 
 export interface SetData {
   id: number
-  weight?: number
-  count?: number
+  weight: number
+  count: number
   countUnit: string
 }

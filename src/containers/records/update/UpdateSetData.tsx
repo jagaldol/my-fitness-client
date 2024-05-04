@@ -5,6 +5,12 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { MdDelete } from "react-icons/md"
 import useToast from "@/hooks/useToast"
 
+interface SetDataForm {
+  weight: string
+  count: string
+  countUnit: string
+}
+
 export default function UpdateSetData({ data, sessionId, idx }: { data: SetData; sessionId: number; idx: number }) {
   const queryClient = useQueryClient()
   const { addSuccessToast } = useToast()
@@ -16,14 +22,23 @@ export default function UpdateSetData({ data, sessionId, idx }: { data: SetData;
     mutationFn: () => axiosInstance.delete(`/sessions/records/sets/${data.id}`),
   })
 
-  const [set, setSet] = useState<SetData>(data)
+  const [set, setSet] = useState<SetDataForm>({
+    weight: data.weight ? data.weight.toString() : "0",
+    count: data.count ? data.count.toString() : "0",
+    countUnit: data.countUnit,
+  })
 
   const onBlurred = (label: string, value: any) => {
     setDataMutate(
       { [label]: value },
       {
         onSuccess: () => queryClient.invalidateQueries({ queryKey: [`/sessions/${sessionId}`] }).then(),
-        onError: () => setSet(data),
+        onError: () =>
+          setSet({
+            weight: data.weight.toString(),
+            count: data.count.toString(),
+            countUnit: data.countUnit,
+          }),
       },
     )
   }
@@ -36,22 +51,30 @@ export default function UpdateSetData({ data, sessionId, idx }: { data: SetData;
           className="text-end bg-input-box p-1 rounded-md"
           type="number"
           value={set.count}
-          onFocus={(e) => {
-            if (e.target.value === "0") e.target.value = ""
+          onFocus={() => {
+            if (set.count === "0") {
+              setSet((prevState) => ({
+                ...prevState,
+                count: "",
+              }))
+            }
           }}
           onChange={(e) => {
             setSet((prevState) => ({
               ...prevState,
-              count: Number(e.target.value),
+              count: e.target.value,
             }))
           }}
           onBlur={() => {
-            if (!set.count)
+            let { count } = set
+            if (count === "") {
               setSet((prevState) => ({
                 ...prevState,
-                count: 0,
+                count: "0",
               }))
-            if (data.count !== set.count) onBlurred("count", set.count)
+              count = "0"
+            }
+            if (data.count.toString() !== count) onBlurred("count", set.count)
           }}
         />
         <input
@@ -75,22 +98,30 @@ export default function UpdateSetData({ data, sessionId, idx }: { data: SetData;
           className="text-end bg-input-box p-1 rounded-md"
           type="number"
           value={set.weight}
-          onFocus={(e) => {
-            if (e.target.value === "0") e.target.value = ""
+          onFocus={() => {
+            if (set.weight === "0") {
+              setSet((prevState) => ({
+                ...prevState,
+                weight: "",
+              }))
+            }
           }}
           onChange={(e) => {
             setSet((prevState) => ({
               ...prevState,
-              weight: Number(e.target.value),
+              weight: e.target.value,
             }))
           }}
           onBlur={() => {
-            if (!set.weight)
+            let { weight } = set
+            if (weight === "") {
               setSet((prevState) => ({
                 ...prevState,
-                weight: 0,
+                weight: "0",
               }))
-            if (data.weight !== set.weight) onBlurred("weight", set.weight)
+              weight = "0"
+            }
+            if (data.weight.toString() !== weight) onBlurred("weight", set.weight)
           }}
         />
         <span className="text-center">kg</span>
