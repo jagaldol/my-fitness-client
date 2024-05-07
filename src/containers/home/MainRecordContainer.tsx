@@ -7,7 +7,7 @@ import axiosInstance from "@/utils/axiosInstance"
 import { SessionData } from "@/types/record"
 import moment from "moment/moment"
 import { useInfiniteQuery } from "@tanstack/react-query"
-import MainSessionItem from "@/containers/home/MainSessionItem"
+import SessionItem from "@/containers/records/SessionItem"
 
 export default function MainRecordContainer() {
   const date = useRecoilValue(selectedDateState)
@@ -32,7 +32,7 @@ export default function MainRecordContainer() {
   })
   return data?.pages[0]?.sessions && data?.pages[0]?.sessions.length > 0 ? (
     data?.pages.map((page) =>
-      page.sessions.map((session: SessionData) => <MainSessionItem key={session.id} session={session} />),
+      page.sessions.map((session: SessionData) => <SessionItem key={session.id} session={session} />),
     )
   ) : (
     <>
