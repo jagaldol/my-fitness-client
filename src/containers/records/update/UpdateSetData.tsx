@@ -123,6 +123,9 @@ export default function UpdateSetData({ data, sessionId, idx }: { data: SetData;
             }
             if (data.weight.toString() !== weight) onBlurred("weight", set.weight)
           }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") e.currentTarget.blur()
+          }}
         />
         <span className="text-center">kg</span>
         <button
