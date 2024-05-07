@@ -51,6 +51,7 @@ export default function TimeSelector({ hour, minute, setHour, setMinute }: Props
         width={100}
         onChange={(e) => {
           setHour(parseInt(e.target.value, 10))
+          e.target.blur()
         }}
         selectedOptionId={hour}
       />
@@ -60,6 +61,7 @@ export default function TimeSelector({ hour, minute, setHour, setMinute }: Props
         width={100}
         onChange={(e) => {
           setMinute(parseInt(e.target.value, 10))
+          e.target.blur()
         }}
         selectedOptionId={minute}
       />
