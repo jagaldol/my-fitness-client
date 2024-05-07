@@ -3,20 +3,29 @@ import React from "react"
 import { MdDelete, MdEdit } from "react-icons/md"
 import { Record, SessionData, SetData } from "@/types/record"
 import Link from "next/link"
-import useMutateWithQueryClient from "@/hooks/useMutateWithQueryClient"
 import axiosInstance from "@/utils/axiosInstance"
 import useToast from "@/hooks/useToast"
 import { useRecoilValue } from "recoil"
 import selectedDateState from "@/states/selectedDateState"
 import moment from "moment"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 
 export default function MainSessionItem({ session }: { session: SessionData }) {
   const { addSuccessToast } = useToast()
 
   const date = useRecoilValue(selectedDateState)
-  const param = { date: moment(date).format("YYYY-MM-DD") }
+  const sessionParam = { date: moment(date).format("YYYY-MM-DD") }
+  const sessionDateParam = { month: moment(date).format("YYYY-MM") }
 
-  const { mutate, queryClient } = useMutateWithQueryClient(() => axiosInstance.delete(`/sessions/${session.id}`))
+  const queryClient = useQueryClient()
+  const { mutate } = useMutation({
+    mutationFn: () => axiosInstance.delete(`/sessions/${session.id}`),
+    onSuccess: () => {
+      queryClient.refetchQueries({ queryKey: ["/sessions", sessionParam] }).then()
+      queryClient.refetchQueries({ queryKey: ["/sessions/dates", sessionDateParam] }).then()
+      addSuccessToast("삭제되었습니다.")
+    },
+  })
 
   return (
     <>
@@ -32,14 +41,7 @@ export default function MainSessionItem({ session }: { session: SessionData }) {
             type="button"
             aria-label="삭제"
             onClick={() => {
-              if (confirm("정말 삭제하시겠습니까?")) {
-                mutate(null, {
-                  onSuccess: () => {
-                    queryClient.refetchQueries({ queryKey: ["/sessions", param] }).then()
-                    addSuccessToast("삭제되었습니다.")
-                  },
-                })
-              }
+              if (confirm("정말 삭제하시겠습니까?")) mutate()
             }}
           >
             <MdDelete />

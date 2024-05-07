@@ -25,7 +25,6 @@ export default function MainCalendar() {
         return res.data.response.dates
       })
     },
-    staleTime: 300_000,
   })
 
   const handlers = useSwipeable({
