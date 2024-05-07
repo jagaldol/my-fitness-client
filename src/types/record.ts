@@ -23,3 +23,9 @@ export interface SetData {
   count: number
   countUnit: string
 }
+
+export interface PostSetData {
+  weight?: number
+  count?: number
+  countUnit?: string
+}

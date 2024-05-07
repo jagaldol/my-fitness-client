@@ -3,7 +3,7 @@ import DatePicker from "@/components/DatePicker"
 import TimeSelector from "@/components/TimeSelector"
 import { useRouter } from "next/navigation"
 import { convertDateString, formatDateToString, formatDateToStringDash } from "@/utils/utils"
-import { Record, SessionData, SetData } from "@/types/record"
+import { PostSetData, Record, SessionData, SetData } from "@/types/record"
 import axiosInstance from "@/utils/axiosInstance"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import useToast from "@/hooks/useToast"
@@ -28,7 +28,8 @@ export default function UpdateSessionForm({ data, sessionId }: { data: SessionDa
   })
 
   const { mutate: postSetRecord } = useMutation({
-    mutationFn: (id: number) => axiosInstance.post(`/sessions/records/${id}/sets`, {}),
+    mutationFn: ({ id, postSetData }: { id: number; postSetData: PostSetData }) =>
+      axiosInstance.post(`/sessions/records/${id}/sets`, postSetData),
   })
 
   const { mutate: deleteRecordMutate } = useMutation({
@@ -133,12 +134,15 @@ export default function UpdateSessionForm({ data, sessionId }: { data: SessionDa
           <button
             type="button"
             onClick={() =>
-              postSetRecord(record.id, {
-                onSuccess: () => {
-                  queryClient.refetchQueries({ queryKey: [`/sessions/${sessionId}`] }).then()
-                  addSuccessToast("세트를 생성했습니다.")
+              postSetRecord(
+                { id: record.id, postSetData: record.sets.length > 0 ? record.sets[record.sets.length - 1] : {} },
+                {
+                  onSuccess: () => {
+                    queryClient.refetchQueries({ queryKey: [`/sessions/${sessionId}`] }).then()
+                    addSuccessToast("세트를 생성했습니다.")
+                  },
                 },
-              })
+              )
             }
             className="w-full mt-5 font-bold text-base text-main-theme flex items-center justify-center"
           >
