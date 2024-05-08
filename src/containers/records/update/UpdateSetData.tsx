@@ -52,12 +52,10 @@ export default function UpdateSetData({ data, sessionId, idx }: { data: SetData;
           type="number"
           value={set.count}
           onFocus={() => {
-            if (set.count === "0") {
-              setSet((prevState) => ({
-                ...prevState,
-                count: "",
-              }))
-            }
+            setSet((prevState) => ({
+              ...prevState,
+              count: "",
+            }))
           }}
           onChange={(e) => {
             setSet((prevState) => ({
@@ -66,15 +64,13 @@ export default function UpdateSetData({ data, sessionId, idx }: { data: SetData;
             }))
           }}
           onBlur={() => {
-            let { count } = set
+            const { count } = set
             if (count === "") {
               setSet((prevState) => ({
                 ...prevState,
-                count: "0",
+                count: data.count.toString(),
               }))
-              count = "0"
-            }
-            if (data.count.toString() !== count) onBlurred("count", set.count)
+            } else if (data.count.toString() !== count) onBlurred("count", count)
           }}
         />
         <input
@@ -99,12 +95,10 @@ export default function UpdateSetData({ data, sessionId, idx }: { data: SetData;
           type="number"
           value={set.weight}
           onFocus={() => {
-            if (set.weight === "0") {
-              setSet((prevState) => ({
-                ...prevState,
-                weight: "",
-              }))
-            }
+            setSet((prevState) => ({
+              ...prevState,
+              weight: "",
+            }))
           }}
           onChange={(e) => {
             setSet((prevState) => ({
@@ -113,15 +107,13 @@ export default function UpdateSetData({ data, sessionId, idx }: { data: SetData;
             }))
           }}
           onBlur={() => {
-            let { weight } = set
+            const { weight } = set
             if (weight === "") {
               setSet((prevState) => ({
                 ...prevState,
-                weight: "0",
+                weight: data.weight.toString(),
               }))
-              weight = "0"
-            }
-            if (data.weight.toString() !== weight) onBlurred("weight", set.weight)
+            } else if (data.weight.toString() !== weight) onBlurred("weight", weight)
           }}
           onKeyDown={(e) => {
             if (e.key === "Enter") e.currentTarget.blur()
