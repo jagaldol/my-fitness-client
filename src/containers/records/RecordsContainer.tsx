@@ -2,12 +2,13 @@
 
 import { useInfiniteQuery } from "@tanstack/react-query"
 import axiosInstance from "@/utils/axiosInstance"
-import React from "react"
+import React, { useCallback } from "react"
 import SessionBox from "@/containers/records/SessionBox"
 import { SessionData } from "@/types/record"
+import useIntersectionObserver from "@/hooks/useIntersectionObserver"
 
 export default function RecordsContainer() {
-  const { data, fetchNextPage } = useInfiniteQuery({
+  const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
     initialData: undefined,
     initialPageParam: 1,
     queryKey: ["/sessions"],
@@ -26,14 +27,27 @@ export default function RecordsContainer() {
     },
   })
 
+  const handleIntersect = useCallback(
+    async ([entry]: IntersectionObserverEntry[], observer: IntersectionObserver) => {
+      if (entry.isIntersecting) {
+        observer.unobserve(entry.target)
+        if (hasNextPage) {
+          await fetchNextPage()
+          observer.observe(entry.target)
+        }
+      }
+    },
+    [hasNextPage, fetchNextPage],
+  )
+
+  const { targetRef } = useIntersectionObserver(handleIntersect)
+
   return (
     <>
       {data?.pages.map((page) =>
         page.sessions.map((session: SessionData) => <SessionBox key={session.id} session={session} />),
       )}
-      <button type="button" onClick={() => fetchNextPage()}>
-        더보기
-      </button>
+      {hasNextPage && <div ref={targetRef} />}
     </>
   )
 }
