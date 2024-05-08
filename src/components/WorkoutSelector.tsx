@@ -18,6 +18,7 @@ export default function WorkoutSelector({ hour, setHour }: Props) {
         width={200}
         onChange={(e) => {
           setHour(parseInt(e.target.value, 10))
+          e.target.blur()
         }}
         selectedOptionId={hour}
       />
