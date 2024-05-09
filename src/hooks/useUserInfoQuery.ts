@@ -16,7 +16,7 @@ export default function useUserInfoQuery() {
       return axiosInstance.put("/users/mine", newInfo)
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/users/mine"] }).then()
+      queryClient.refetchQueries({ queryKey: ["/users/mine"] }).then()
     },
   })
 
