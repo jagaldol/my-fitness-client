@@ -3,22 +3,16 @@ import React, { useEffect, useState } from "react"
 import { MdCheckCircle } from "react-icons/md"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import useSportsQuery from "@/hooks/useSportsQuery"
-import { AxiosError } from "axios"
-import useToast from "@/hooks/useToast"
+import useErrorResponseHandler from "@/hooks/useErrorResponseHandler"
 
 export default function EditSport({ sportId }: { sportId: number }) {
-  const { addErrorToast } = useToast()
   const queryClient = useQueryClient()
+  const errorHandler = useErrorResponseHandler()
 
   const { mutate: putSportMutate } = useMutation({
     mutationFn: (data: any) => axiosInstance.put(`/sports/${sportId}`, data),
     onSuccess: () => queryClient.refetchQueries({ queryKey: ["/sports"] }).then(),
-    onError: (err) => {
-      if (err instanceof AxiosError && err?.response?.data.response !== "UNKNOWN_SERVER_ERROR") {
-        if (err?.response?.data.response === "DUPLICATED_DATA") addErrorToast("이미 존재하는 이름입니다.")
-        else addErrorToast(err?.response?.data.errorMessage)
-      } else addErrorToast(err.message)
-    },
+    onError: (err) => errorHandler(err, "DUPLICATED_DATA", "이미존재하는 이름입니다."),
   })
   const { data: sports } = useSportsQuery()
 

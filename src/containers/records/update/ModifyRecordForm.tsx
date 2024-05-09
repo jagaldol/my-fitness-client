@@ -8,11 +8,12 @@ import { MdAddCircle, MdDelete, MdEdit } from "react-icons/md"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import useSportsQuery from "@/hooks/useSportsQuery"
 import EditSport from "@/components/sports/EditSport"
-import { AxiosError } from "axios"
+import useErrorResponseHandler from "@/hooks/useErrorResponseHandler"
 
 export default function ModifyRecordForm({ currentId, onSubmitMutate }: { currentId: number; onSubmitMutate: any }) {
-  const { addSuccessToast, addErrorToast } = useToast()
+  const { addSuccessToast } = useToast()
   const queryClient = useQueryClient()
+  const errorHandler = useErrorResponseHandler()
 
   const { data: sports, isFetched } = useSportsQuery()
 
@@ -26,11 +27,7 @@ export default function ModifyRecordForm({ currentId, onSubmitMutate }: { curren
       queryClient.refetchQueries({ queryKey: ["/sports"] }).then()
       setSportId(res.data.response.id)
     },
-    onError: (err) => {
-      if (err instanceof AxiosError && err?.response?.data.response === "DUPLICATED_DATA")
-        addErrorToast("이미 존재하는 이름입니다.")
-      else addErrorToast(err.message)
-    },
+    onError: (err) => errorHandler(err, "DUPLICATED_DATA", "이미 존재하는 이름입니다."),
   })
   const { mutate: deleteSportMutate } = useMutation({
     mutationFn: (id: number) => axiosInstance.delete(`/sports/${id}`),
@@ -39,11 +36,7 @@ export default function ModifyRecordForm({ currentId, onSubmitMutate }: { curren
       queryClient.refetchQueries({ queryKey: ["/sports"] }).then()
       addSuccessToast("삭제되었습니다.")
     },
-    onError: (err) => {
-      if (err instanceof AxiosError && err?.response?.data.response === "REFERENCED_DATA_EXISTS")
-        addErrorToast("사용 중인 데이터입니다.")
-      else addErrorToast(err.message)
-    },
+    onError: (err) => errorHandler(err, "REFERENCED_DATA_EXISTS", "사용 중인 데이터입니다."),
   })
 
   useEffect(() => {

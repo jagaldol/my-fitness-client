@@ -7,14 +7,15 @@ import DatePicker from "@/components/DatePicker"
 import { formatDateToString, formatDateToStringDash } from "@/utils/utils"
 import TimeSelector from "@/components/TimeSelector"
 import useMutateWithQueryClient from "@/hooks/useMutateWithQueryClient"
-import { AxiosError } from "axios"
 import { useRouter } from "next/navigation"
 import useModal from "@/hooks/useModal"
+import useErrorResponseHandler from "@/hooks/useErrorResponseHandler"
 
 export default function AddSessionForm({ defaultDate }: { defaultDate: Date }) {
   const router = useRouter()
   const { onCloseModal } = useModal()
-  const { addSuccessToast, addErrorToast } = useToast()
+  const { addSuccessToast } = useToast()
+  const errorHandler = useErrorResponseHandler()
   const { mutate, queryClient } = useMutateWithQueryClient((data) => axiosInstance.post("/sessions", data))
 
   const [date, setDate] = useState(defaultDate)
@@ -46,10 +47,7 @@ export default function AddSessionForm({ defaultDate }: { defaultDate: Date }) {
             router.push(`/update-record?id=${res.data.response.id}`, { scroll: false })
             queryClient.invalidateQueries({ queryKey: ["/sessions"] }).then()
           },
-          onError: (err) => {
-            if (err instanceof AxiosError) addErrorToast(err?.response?.data.errorMessage)
-            else addErrorToast(err.message)
-          },
+          onError: (err) => errorHandler(err),
         })
       }}
     >

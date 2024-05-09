@@ -8,7 +8,7 @@ import { getJwtId, getJwtPayload, saveJwt } from "@/utils/jwtDecoder"
 import axiosInstance from "@/utils/axiosInstance"
 import useToast from "@/hooks/useToast"
 import useMutateWithQueryClient from "@/hooks/useMutateWithQueryClient"
-import { AxiosError } from "axios"
+import useErrorResponseHandler from "@/hooks/useErrorResponseHandler"
 
 const Field = forwardRef(function FieldForward(
   {
@@ -39,10 +39,11 @@ const Field = forwardRef(function FieldForward(
 
 export default function LoginForm() {
   const setUserId = useSetRecoilState(userIdState)
+  const errorHandler = useErrorResponseHandler()
   const router = useRouter()
   const emailInputRef = useRef<HTMLInputElement>(null)
   const passwordInputRef = useRef<HTMLInputElement>(null)
-  const { addSuccessToast, addWarningToast, addErrorToast } = useToast()
+  const { addSuccessToast } = useToast()
 
   const { mutate, queryClient } = useMutateWithQueryClient((data) => axiosInstance.post("/login", data))
 
@@ -71,11 +72,7 @@ export default function LoginForm() {
               queryClient.invalidateQueries().then()
               router.replace("/")
             },
-            onError: (err) => {
-              if (err instanceof AxiosError && err?.response?.data.response === "LOGIN_FAILED")
-                addWarningToast("이메일 혹은 비밀번호가 틀렸습니다.")
-              else addErrorToast(err.message)
-            },
+            onError: (err) => errorHandler(err, "LOGIN_FAILED", "이메일 혹은 비밀번호가 틀렸습니다.", "WARN"),
           },
         )
       }}

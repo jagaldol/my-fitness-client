@@ -1,12 +1,13 @@
 import React, { useRef } from "react"
 import useToast from "@/hooks/useToast"
-import { AxiosError } from "axios"
 import useModal from "@/hooks/useModal"
 import useUserInfoQuery from "@/hooks/useUserInfoQuery"
+import useErrorResponseHandler from "@/hooks/useErrorResponseHandler"
 
 export default function UpdatePasswordForm() {
   const { onCloseModal } = useModal()
-  const { addSuccessToast, addWarningToast, addErrorToast } = useToast()
+  const { addSuccessToast, addWarningToast } = useToast()
+  const errorHandler = useErrorResponseHandler()
 
   const { updateUserInfo } = useUserInfoQuery()
 
@@ -43,10 +44,7 @@ export default function UpdatePasswordForm() {
               onCloseModal()
               addSuccessToast("비밀번호가 변경되었습니다.")
             },
-            onError: (err) => {
-              if (err instanceof AxiosError) addErrorToast(err?.response?.data.errorMessage)
-              else addErrorToast(err.message)
-            },
+            onError: (err) => errorHandler(err),
           },
         )
       }}
