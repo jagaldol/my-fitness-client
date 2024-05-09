@@ -23,7 +23,8 @@ export default function RecordsContainer() {
       }
     },
     getNextPageParam: (lastPage, pages, pageNum) => {
-      return lastPage.sessions.length > 0 ? pageNum + 1 : undefined
+      if (lastPage && lastPage.sessions.length > 0) return pageNum + 1
+      return undefined
     },
   })
 
@@ -41,11 +42,10 @@ export default function RecordsContainer() {
   )
 
   const { targetRef } = useIntersectionObserver(handleIntersect)
-
   return (
     <>
       {data?.pages.map((page) =>
-        page.sessions.map((session: SessionData) => <SessionBox key={session.id} session={session} />),
+        page?.sessions.map((session: SessionData) => <SessionBox key={session.id} session={session} />),
       )}
       {hasNextPage && <div ref={targetRef} />}
     </>

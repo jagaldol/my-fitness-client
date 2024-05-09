@@ -28,7 +28,8 @@ export default function MainRecordContainer() {
       }
     },
     getNextPageParam: (lastPage, pages, pageNum) => {
-      return lastPage.sessions.length > 0 ? pageNum + 1 : undefined
+      if (lastPage && lastPage.sessions.length > 0) return pageNum + 1
+      return undefined
     },
   })
   const handleIntersect = useCallback(
