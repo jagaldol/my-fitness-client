@@ -5,6 +5,7 @@ import RecoilRootWrapper from "@/wrappers/RecoilRootWrapper"
 import QueryClientProviderWrapper from "@/wrappers/QueryClientProviderWrapper"
 import Toast from "@/components/toast/Toast"
 import ModalList from "@/components/modal/ModalList"
+import AxiosInterceptorWrapper from "@/wrappers/AxiosInterceptorWrapper"
 
 export const metadata = {
   title: "Fitness | Behind",
@@ -17,9 +18,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="flex flex-col items-center justify-center">
         <QueryClientProviderWrapper>
           <RecoilRootWrapper>
-            {children}
-            <Toast />
-            <ModalList />
+            <AxiosInterceptorWrapper>
+              {children}
+              <Toast />
+              <ModalList />
+            </AxiosInterceptorWrapper>
           </RecoilRootWrapper>
         </QueryClientProviderWrapper>
       </body>
