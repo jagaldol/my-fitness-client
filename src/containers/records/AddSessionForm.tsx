@@ -10,6 +10,7 @@ import useMutateWithQueryClient from "@/hooks/useMutateWithQueryClient"
 import { useRouter } from "next/navigation"
 import useModal from "@/hooks/useModal"
 import useErrorResponseHandler from "@/hooks/useErrorResponseHandler"
+import moment from "moment"
 
 export default function AddSessionForm({ defaultDate }: { defaultDate: Date }) {
   const router = useRouter()
@@ -19,10 +20,11 @@ export default function AddSessionForm({ defaultDate }: { defaultDate: Date }) {
   const { mutate, queryClient } = useMutateWithQueryClient((data) => axiosInstance.post("/sessions", data))
 
   const [date, setDate] = useState(defaultDate)
-  const [startHour, setStartHour] = useState(-1)
-  const [startMinute, setStartMinute] = useState(-1)
-  const [endHour, setEndHour] = useState(-1)
-  const [endMinute, setEndMinute] = useState(-1)
+
+  const now = moment()
+  now.minute(Math.round(now.minute() / 10) * 10)
+  const [startHour, setStartHour] = useState(now.hour())
+  const [startMinute, setStartMinute] = useState(now.minute())
 
   return (
     <form
@@ -34,10 +36,6 @@ export default function AddSessionForm({ defaultDate }: { defaultDate: Date }) {
           startTime:
             startHour !== -1 && startMinute !== -1
               ? `${startHour.toString().padStart(2, "0")}:${startMinute.toString().padStart(2, "0")}`
-              : undefined,
-          endTime:
-            endHour !== -1 && endMinute !== -1
-              ? `${endHour.toString().padStart(2, "0")}:${endMinute.toString().padStart(2, "0")}`
               : undefined,
         }
         mutate(data, {
@@ -62,10 +60,6 @@ export default function AddSessionForm({ defaultDate }: { defaultDate: Date }) {
         <div className="flex items-center">
           <span className="w-20">시작시간</span>
           <TimeSelector hour={startHour} minute={startMinute} setHour={setStartHour} setMinute={setStartMinute} />
-        </div>
-        <div className="flex items-center">
-          <span className="w-20">종료시간</span>
-          <TimeSelector hour={endHour} minute={endMinute} setHour={setEndHour} setMinute={setEndMinute} />
         </div>
       </div>
       <button type="submit" className="w-full h-10 rounded-full bg-main-theme">
