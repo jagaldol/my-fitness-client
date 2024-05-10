@@ -165,6 +165,11 @@ export default function UpdateSessionForm({ data, sessionId }: { data: SessionDa
         type="button"
         onClick={() => {
           setSelectedDate(moment(data.date, "YYYY-MM-DD").toDate())
+          if (!data.endTime && confirm("종료시간이 설정되지 않았습니다. 현재시간을 종료시간으로 설정하겠습니까?")) {
+            const now = moment()
+            now.minute(Math.round(now.minute() / 10) * 10)
+            updateSession("endTime", now.format("HH:mm"))
+          }
           addSuccessToast("저장되었습니다.")
           router.push("/", { scroll: false })
         }}
