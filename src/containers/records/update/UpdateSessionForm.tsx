@@ -168,7 +168,16 @@ export default function UpdateSessionForm({ data, sessionId }: { data: SessionDa
           if (!data.endTime && confirm("종료시간이 설정되지 않았습니다. 현재시간을 종료시간으로 설정하겠습니까?")) {
             const now = moment()
             now.minute(Math.round(now.minute() / 10) * 10)
-            updateSession("endTime", now.format("HH:mm"))
+            sessionMutate(
+              { endTime: now.format("HH:mm") },
+              {
+                onSuccess: () => {
+                  queryClient.refetchQueries({
+                    queryKey: ["/sessions", { date: moment(data.date).format("YYYY-MM-DD") }],
+                  })
+                },
+              },
+            )
           }
           addSuccessToast("저장되었습니다.")
           router.push("/", { scroll: false })
