@@ -3,7 +3,7 @@ import axiosInstance from "@/utils/axiosInstance"
 
 export default function useUserInfoQuery() {
   const queryClient = useQueryClient()
-  const { data, isSuccess } = useQuery({
+  const { data, isFetched } = useQuery({
     queryKey: ["/users/mine"],
     queryFn: async () => {
       return axiosInstance.get("/users/mine").then((res) => res.data.response)
@@ -16,9 +16,9 @@ export default function useUserInfoQuery() {
       return axiosInstance.put("/users/mine", newInfo)
     },
     onSuccess: () => {
-      queryClient.refetchQueries({ queryKey: ["/users/mine"] }).then()
+      queryClient.invalidateQueries({ queryKey: ["/users/mine"] }).then()
     },
   })
 
-  return { userInfo: data, isSuccess, updateUserInfo: updateMutation }
+  return { userInfo: data, isFetched, updateUserInfo: updateMutation }
 }

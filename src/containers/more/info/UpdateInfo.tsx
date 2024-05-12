@@ -49,7 +49,7 @@ export default function UpdateInfo() {
             }
           }}
           onBlur={() => {
-            if (name.trim() !== "" && userInfo?.name !== name) onBlurred("name", name.trim())
+            if (name.trim() !== "" && userInfo?.name !== name.trim()) onBlurred("name", name.trim())
           }}
         />
         <span>메모</span>
@@ -63,7 +63,7 @@ export default function UpdateInfo() {
             }
           }}
           onBlur={() => {
-            if (userInfo?.memo !== memo) onBlurred("memo", memo.trim())
+            if (userInfo?.memo !== memo.trim()) onBlurred("memo", memo.trim())
           }}
         />
         <span>이메일</span>

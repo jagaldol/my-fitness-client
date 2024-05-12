@@ -1,17 +1,13 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import useUserInfoQuery from "@/hooks/useUserInfoQuery"
 
 export default function UserMemo() {
-  const [memo, setMemo] = useState("")
-  const { userInfo, isSuccess } = useUserInfoQuery()
+  const { userInfo, isFetched } = useUserInfoQuery()
 
-  useEffect(() => {
-    if (isSuccess && userInfo.memo) {
-      setMemo(userInfo.memo)
-    }
-  }, [userInfo, isSuccess])
-
-  return memo !== "" ? <p>{memo}</p> : <p className="text-text-gray">메모가 없습니다.</p>
+  return isFetched && userInfo?.memo !== "" ? (
+    <p>{userInfo.memo}</p>
+  ) : (
+    <p className="text-text-gray">메모가 없습니다.</p>
+  )
 }
