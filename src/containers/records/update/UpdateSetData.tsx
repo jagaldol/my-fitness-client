@@ -92,7 +92,7 @@ export default function UpdateSetData({ data, sessionId, idx }: { data: SetData;
         <span className="text-text-gray pl-5 max-md:pl-2">무게</span>
         <input
           className="text-end bg-input-box p-1 rounded-md"
-          type="number"
+          type="tel"
           value={set.weight}
           onFocus={() => {
             setSet((prevState) => ({
