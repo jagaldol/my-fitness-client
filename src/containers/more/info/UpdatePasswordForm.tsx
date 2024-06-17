@@ -55,7 +55,7 @@ export default function UpdatePasswordForm() {
           <input
             type="password"
             ref={passwordRef}
-            className="p-2 bg-input-box rounded-md h-10"
+            className="p-2 bg-input-box w-40 rounded-md h-10"
             onChange={(e) => {
               if (e.target.value.length <= 64) {
                 e.target.value = e.target.value.slice(0, 64)
@@ -69,7 +69,7 @@ export default function UpdatePasswordForm() {
           <input
             type="password"
             ref={passwordConfirmRef}
-            className="p-2 bg-input-box rounded-md h-10"
+            className="p-2 bg-input-box w-40 rounded-md h-10"
             onChange={(e) => {
               if (e.target.value.length <= 64) {
                 e.target.value = e.target.value.slice(0, 64)

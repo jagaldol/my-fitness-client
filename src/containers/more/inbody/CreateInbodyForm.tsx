@@ -64,15 +64,15 @@ export default function CreateInbodyForm() {
         </div>
         <div className="flex items-center">
           <span className="w-24">체중(kg)</span>
-          <input type="tel" ref={weightRef} className="p-2 bg-input-box rounded-md h-10" required />
+          <input type="tel" ref={weightRef} className="p-2 w-32 bg-input-box rounded-md h-10" required />
         </div>
         <div className="flex items-center">
           <span className="w-24">골격근량(kg)</span>
-          <input type="tel" ref={muscleRef} className="p-2 bg-input-box rounded-md h-10" required />
+          <input type="tel" ref={muscleRef} className="p-2 w-32 bg-input-box rounded-md h-10" required />
         </div>
         <div className="flex items-center">
           <span className="w-24">체지방량(kg)</span>
-          <input type="tel" ref={fatRef} className="p-2 bg-input-box rounded-md h-10" required />
+          <input type="tel" ref={fatRef} className="p-2 w-32 bg-input-box rounded-md h-10" required />
         </div>
       </div>
       <button type="submit" className="w-full h-10 rounded-full bg-main-theme">
