@@ -9,6 +9,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@nivo/bar": "^0.87.0",
+    "@nivo/core": "^0.87.0",
+    "@nivo/line": "^0.87.0",
     "@tanstack/react-query": "^5.29.2",
     "axios": "^1.6.8",
     "moment": "^2.30.1",
