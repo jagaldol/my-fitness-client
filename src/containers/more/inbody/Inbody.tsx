@@ -47,7 +47,7 @@ function Chart({ id, data, color }: { id: string; data: { x: string; y: number }
           data,
         },
       ]}
-      margin={{ top: 20, right: 20, bottom: 30, left: 30 }}
+      margin={{ top: 10, right: 10, bottom: 54, left: 32 }}
       yScale={{
         type: "linear",
         min: minX,
@@ -58,6 +58,9 @@ function Chart({ id, data, color }: { id: string; data: { x: string; y: number }
       pointSize={10}
       axisLeft={{
         tickValues: yValues,
+      }}
+      axisBottom={{
+        tickRotation: 90, // Rotates the labels
       }}
       gridYValues={yValues}
       tooltip={CustomTooltip}
@@ -78,7 +81,7 @@ export default function Inbody() {
     },
   })
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-3">
       <div className="flex justify-end">
         <button
           type="button"
@@ -93,14 +96,14 @@ export default function Inbody() {
       </div>
       <ContentBox>
         <div className="h-40 text-white flex items-center">
-          <div className="w-7 text-center mx-2">
+          <div className="w-7 text-center mr-1">
             <h2 className="text-lg">체중</h2>
             <span>(kg)</span>
           </div>
           {isFetched && (
             <Chart
               id="weight"
-              data={data.map((value: any) => ({ x: moment(value.date).format("M/D"), y: value.weight }))}
+              data={data.map((value: any) => ({ x: moment(value.date).format("YY.M.D"), y: value.weight }))}
               color="#97e3d5"
             />
           )}
@@ -108,14 +111,14 @@ export default function Inbody() {
       </ContentBox>
       <ContentBox>
         <div className="h-40 text-white flex items-center">
-          <div className="w-7 text-center mx-2">
+          <div className="w-7 text-center mr-1">
             <h2 className="text-lg">골격근량</h2>
             <span>(kg)</span>
           </div>
           {isFetched && (
             <Chart
               id="muscle"
-              data={data.map((value: any) => ({ x: moment(value.date).format("M/D"), y: value.muscle }))}
+              data={data.map((value: any) => ({ x: moment(value.date).format("YY.M.D"), y: value.muscle }))}
               color="#EFB118"
             />
           )}
@@ -123,14 +126,14 @@ export default function Inbody() {
       </ContentBox>
       <ContentBox>
         <div className="h-40 text-white flex items-center">
-          <div className="w-7 text-center mx-2">
+          <div className="w-7 text-center mr-1">
             <h2 className="text-lg">체지방량</h2>
             <span>(kg)</span>
           </div>
           {isFetched && (
             <Chart
               id="fat"
-              data={data.map((value: any) => ({ x: moment(value.date).format("M/D"), y: value.fat }))}
+              data={data.map((value: any) => ({ x: moment(value.date).format("YY.M.D"), y: value.fat }))}
               color="#97BBF5"
             />
           )}
@@ -138,14 +141,14 @@ export default function Inbody() {
       </ContentBox>
       <ContentBox>
         <div className="h-40 text-white flex items-center">
-          <div className="w-7 text-center mx-2">
+          <div className="w-7 text-center mr-1">
             <h2 className="text-lg">체지방률</h2>
             <span>(%)</span>
           </div>
           {isFetched && (
             <Chart
               id="percentFat"
-              data={data.map((value: any) => ({ x: moment(value.date).format("M/D"), y: value.percentFat }))}
+              data={data.map((value: any) => ({ x: moment(value.date).format("YY.M.D"), y: value.percentFat }))}
               color="#FF725C"
             />
           )}
