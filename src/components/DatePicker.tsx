@@ -12,7 +12,7 @@ export default function DatePicker({ date, setDate }: Props) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <div className="relative flex items-center gap-6 md:gap-2">
+    <div className="md:relative flex items-center gap-6 md:gap-2">
       <button
         type="button"
         aria-label="날짜 선택"
@@ -22,7 +22,7 @@ export default function DatePicker({ date, setDate }: Props) {
         <MdCalendarMonth />
       </button>
       {isOpen && (
-        <div className="absolute top-full -left-5 w-[250px] h-[300px] date-picker">
+        <div className="absolute max-md:top-1/2 max-md:left-1/2 max-md:-translate-x-1/2 max-md:-translate-y-1/2 md:top-full md:-left-5 w-[250px] h-[300px] date-picker">
           <Calendar
             locale="ko"
             calendarType="gregory"

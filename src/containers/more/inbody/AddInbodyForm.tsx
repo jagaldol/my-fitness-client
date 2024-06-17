@@ -8,7 +8,7 @@ import DatePicker from "@/components/DatePicker"
 import { formatDateToString } from "@/utils/utils"
 import moment from "moment"
 
-export default function CreateInbodyForm() {
+export default function AddInbodyForm() {
   const { onCloseModal } = useModal()
   const { addSuccessToast } = useToast()
   const errorHandler = useErrorResponseHandler()

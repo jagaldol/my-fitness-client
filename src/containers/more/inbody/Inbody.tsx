@@ -9,7 +9,7 @@ import { PointTooltipProps, ResponsiveLine } from "@nivo/line"
 import ContentBox from "@/components/ContentBox"
 import { BasicTooltip } from "@nivo/tooltip"
 import moment from "moment"
-import CreateInbodyForm from "@/containers/more/inbody/CreateInbodyForm"
+import AddInbodyForm from "@/containers/more/inbody/AddInbodyForm"
 import { FaPlus } from "react-icons/fa6"
 
 const theme = {
@@ -83,7 +83,7 @@ export default function Inbody() {
         <button
           type="button"
           onClick={() => {
-            openModal("인바디 기록 추가", <CreateInbodyForm />)
+            openModal("인바디 기록 추가", <AddInbodyForm />)
           }}
           className="flex items-center justify-center gap-1 px-5 h-8 rounded-full bg-main-theme"
         >
