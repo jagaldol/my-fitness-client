@@ -47,7 +47,7 @@ function Chart({ id, data, color }: { id: string; data: { x: string; y: number }
           data,
         },
       ]}
-      margin={{ top: 20, right: 50, bottom: 30, left: 50 }}
+      margin={{ top: 20, right: 20, bottom: 30, left: 30 }}
       yScale={{
         type: "linear",
         min: minX,
