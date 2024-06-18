@@ -5,70 +5,11 @@ import { useRouter } from "next/navigation"
 import useModal from "@/hooks/useModal"
 import axiosInstance from "@/utils/axiosInstance"
 import { useQuery } from "@tanstack/react-query"
-import { PointTooltipProps, ResponsiveLine } from "@nivo/line"
 import ContentBox from "@/components/ContentBox"
-import { BasicTooltip } from "@nivo/tooltip"
 import moment from "moment"
 import AddInbodyForm from "@/containers/more/inbody/AddInbodyForm"
 import { FaPlus } from "react-icons/fa6"
-
-const theme = {
-  text: {
-    fill: "#FFFFFF",
-  },
-  tooltip: {
-    container: {
-      background: "#555555",
-      color: "#fff",
-    },
-  },
-  crosshair: {
-    line: {
-      stroke: "#FFFFFF",
-    },
-  },
-}
-
-function CustomTooltip({ point }: PointTooltipProps) {
-  return <BasicTooltip id={String(point.data.y)} />
-}
-
-function Chart({ id, data, color }: { id: string; data: { x: string; y: number }[]; color: string }) {
-  if (data.length === 0) return <div className="w-full text-center text-text-gray">기록을 추가해주세요</div>
-  const minX = Math.min(...data.map((d) => d.y)) - 0.1
-  const maxX = Math.max(...data.map((d) => d.y)) + 0.1
-  const interval = (maxX - minX) / 3
-  const yValues = [minX, minX + interval, minX + 2 * interval, maxX].map((value) => Math.round(value * 10) / 10)
-  return (
-    <ResponsiveLine
-      data={[
-        {
-          id,
-          data,
-        },
-      ]}
-      margin={{ top: 10, right: 10, bottom: 54, left: 32 }}
-      yScale={{
-        type: "linear",
-        min: minX,
-        max: maxX,
-      }}
-      enableGridX={false}
-      colors={[`${color}`]}
-      pointSize={10}
-      axisLeft={{
-        tickValues: yValues,
-      }}
-      axisBottom={{
-        tickRotation: 90, // Rotates the labels
-      }}
-      gridYValues={yValues}
-      tooltip={CustomTooltip}
-      useMesh
-      theme={theme}
-    />
-  )
-}
+import Chart from "@/containers/more/inbody/Chart"
 
 export default function Inbody() {
   const router = useRouter()
