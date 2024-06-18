@@ -26,6 +26,8 @@ function CustomTooltip({ point }: PointTooltipProps) {
 }
 
 export default function Chart({ id, data, color }: { id: string; data: { x: string; y: number }[]; color: string }) {
+  const { openModal } = useModal()
+
   if (data.length === 0) return <div className="w-full text-center text-text-gray">기록을 추가해주세요</div>
   const minX = Math.min(...data.map((d) => d.y)) - 0.1
   const maxX = Math.max(...data.map((d) => d.y)) + 0.1
@@ -39,8 +41,6 @@ export default function Chart({ id, data, color }: { id: string; data: { x: stri
       uniqueYValues.push(yValues[i])
     }
   }
-
-  const { openModal } = useModal()
 
   return (
     <ResponsiveLine
