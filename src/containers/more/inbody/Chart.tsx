@@ -1,6 +1,8 @@
 import { PointTooltipProps, ResponsiveLine } from "@nivo/line"
 import { BasicTooltip } from "@nivo/tooltip"
 import React from "react"
+import useModal from "@/hooks/useModal"
+import UpdateInbodyForm from "@/containers/more/inbody/UpdateInbodyForm"
 
 const theme = {
   text: {
@@ -38,6 +40,8 @@ export default function Chart({ id, data, color }: { id: string; data: { x: stri
     }
   }
 
+  const { openModal } = useModal()
+
   return (
     <ResponsiveLine
       data={[
@@ -63,6 +67,7 @@ export default function Chart({ id, data, color }: { id: string; data: { x: stri
       }}
       gridYValues={uniqueYValues}
       tooltip={CustomTooltip}
+      onClick={(point: any) => openModal("기록 수정", <UpdateInbodyForm id={point.data.id} />)}
       useMesh
       theme={theme}
     />

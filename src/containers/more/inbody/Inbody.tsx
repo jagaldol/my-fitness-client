@@ -44,7 +44,11 @@ export default function Inbody() {
           {isFetched && (
             <Chart
               id="weight"
-              data={data.map((value: any) => ({ x: moment(value.date).format("YY.M.D"), y: value.weight }))}
+              data={data.map((value: any) => ({
+                x: moment(value.date).format("YY.M.D"),
+                y: value.weight,
+                id: value.id,
+              }))}
               color="#97e3d5"
             />
           )}
@@ -59,7 +63,11 @@ export default function Inbody() {
           {isFetched && (
             <Chart
               id="muscle"
-              data={data.map((value: any) => ({ x: moment(value.date).format("YY.M.D"), y: value.muscle }))}
+              data={data.map((value: any) => ({
+                x: moment(value.date).format("YY.M.D"),
+                y: value.muscle,
+                id: value.id,
+              }))}
               color="#EFB118"
             />
           )}
@@ -74,7 +82,11 @@ export default function Inbody() {
           {isFetched && (
             <Chart
               id="fat"
-              data={data.map((value: any) => ({ x: moment(value.date).format("YY.M.D"), y: value.fat }))}
+              data={data.map((value: any) => ({
+                x: moment(value.date).format("YY.M.D"),
+                y: value.fat,
+                id: value.id,
+              }))}
               color="#97BBF5"
             />
           )}
@@ -89,7 +101,11 @@ export default function Inbody() {
           {isFetched && (
             <Chart
               id="percentFat"
-              data={data.map((value: any) => ({ x: moment(value.date).format("YY.M.D"), y: value.percentFat }))}
+              data={data.map((value: any) => ({
+                x: moment(value.date).format("YY.M.D"),
+                y: value.percentFat,
+                id: value.id,
+              }))}
               color="#FF725C"
             />
           )}
