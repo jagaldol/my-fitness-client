@@ -57,7 +57,7 @@ export default function ModifyRecordForm({ currentId, onSubmitMutate }: { curren
       <div className="flex flex-col gap-4 min-w-[280px]">
         <div className="flex items-center">
           <span className="w-20">선택</span>
-          <WorkoutSelector hour={sportId} setHour={setSportId} />
+          <WorkoutSelector id={sportId} setId={setSportId} />
         </div>
         {sportId === 0 && (
           <div className="flex items-center">

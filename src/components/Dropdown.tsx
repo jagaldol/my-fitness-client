@@ -11,7 +11,7 @@ export default function Dropdown({ options, width, onChange, placeholder, select
     <select
       onChange={onChange}
       style={{ width }}
-      className="bg-input-box appearance-none rounded-full p-2 text-center cursor-pointer hover:brightness-90"
+      className="bg-input-box appearance-none rounded-md p-2 text-center cursor-pointer hover:brightness-110 outline-none"
       value={selectedOptionId}
     >
       <option value={-1} hidden disabled>

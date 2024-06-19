@@ -3,11 +3,11 @@ import Dropdown from "@/components/Dropdown"
 import useSportsQuery from "@/hooks/useSportsQuery"
 
 interface Props {
-  hour: number
-  setHour: React.Dispatch<SetStateAction<number>>
+  id: number
+  setId: React.Dispatch<SetStateAction<number>>
 }
 
-export default function WorkoutSelector({ hour, setHour }: Props) {
+export default function WorkoutSelector({ id, setId }: Props) {
   const { data, isFetched } = useSportsQuery()
 
   return (
@@ -17,10 +17,10 @@ export default function WorkoutSelector({ hour, setHour }: Props) {
         options={[...data, { id: 0, name: "직접추가" }]}
         width={200}
         onChange={(e) => {
-          setHour(parseInt(e.target.value, 10))
+          setId(parseInt(e.target.value, 10))
           e.target.blur()
         }}
-        selectedOptionId={hour}
+        selectedOptionId={id}
       />
     )
   )
