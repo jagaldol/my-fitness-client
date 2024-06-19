@@ -7,6 +7,7 @@ import useUserInfoQuery from "@/hooks/useUserInfoQuery"
 import { MdPassword } from "react-icons/md"
 import useModal from "@/hooks/useModal"
 import UpdatePasswordForm from "@/containers/more/info/UpdatePasswordForm"
+import Dropdown from "@/components/Dropdown"
 
 export default function UpdateInfo() {
   const router = useRouter()
@@ -17,10 +18,16 @@ export default function UpdateInfo() {
 
   const [name, setName] = useState("")
   const [memo, setMemo] = useState("")
+  const [gender, setGender] = useState(-1)
+  const [height, setHeight] = useState("")
 
   const reset = useCallback(() => {
-    setName(userInfo?.name ? userInfo?.name : "")
-    setMemo(userInfo?.memo ? userInfo?.memo : "")
+    if (userInfo) {
+      setName(userInfo.name)
+      setMemo(userInfo.memo ? userInfo.memo : "")
+      setGender(userInfo.gender ? 1 : 0)
+      setHeight(userInfo.height)
+    }
   }, [userInfo])
 
   const onBlurred = (label: string, value: any) => {
@@ -49,6 +56,7 @@ export default function UpdateInfo() {
             }
           }}
           onBlur={() => {
+            setName(name.trim())
             if (name.trim() !== "" && userInfo?.name !== name.trim()) onBlurred("name", name.trim())
           }}
         />
@@ -63,11 +71,39 @@ export default function UpdateInfo() {
             }
           }}
           onBlur={() => {
+            setMemo(memo.trim())
             if (userInfo?.memo !== memo.trim()) onBlurred("memo", memo.trim())
           }}
         />
         <span>이메일</span>
         <span className="p-2 h-10">{userInfo?.email}</span>
+        <span>성별</span>
+        <Dropdown
+          options={[
+            { id: 0, name: "남자" },
+            { id: 1, name: "여자" },
+          ]}
+          width={100}
+          onChange={(e) => {
+            onBlurred("gender", e.target.value !== "0")
+          }}
+          selectedOptionId={gender}
+          placeholder=""
+        />
+        <span>신장(cm)</span>
+        <input
+          type="tel"
+          className="p-2 bg-input-box rounded-md h-10 w-[100px] text-center"
+          value={height}
+          onChange={(e) => {
+            setHeight(e.target.value)
+          }}
+          onBlur={() => {
+            const trim = height.replaceAll(" ", "")
+            setHeight(trim)
+            if (trim !== "" && trim !== userInfo?.height) onBlurred("height", trim)
+          }}
+        />
       </div>
       <div className="flex justify-end">
         <button
