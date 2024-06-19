@@ -17,7 +17,7 @@ function Modal({ modalData, zIndex = 100 }: Props) {
       style={{ zIndex }}
       className="fixed left-0 right-0 top-0 bottom-0 flex items-center justify-center bg-black/30"
     >
-      <div className="bg-content-box border border-text-gray/10 rounded-2xl shadow-2xl p-3">
+      <div className="m-3 bg-content-box border border-text-gray/10 rounded-2xl shadow-2xl p-3">
         <div className="flex w-full justify-between items-center">
           <h2 className="text-lg font-GmarketSansMedium mr-7">{modalData.title}</h2>
           <button
