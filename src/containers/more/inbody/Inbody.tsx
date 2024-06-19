@@ -10,6 +10,10 @@ import moment from "moment"
 import AddInbodyForm from "@/containers/more/inbody/AddInbodyForm"
 import { FaPlus } from "react-icons/fa6"
 import Chart from "@/containers/more/inbody/Chart"
+import useUserInfoQuery from "@/hooks/useUserInfoQuery"
+import { genderString } from "@/utils/utils"
+import { MdEdit } from "react-icons/md"
+import UpdateUserInbodyInfoForm from "@/containers/more/inbody/UpdateUserInbodyInfoForm"
 
 export default function Inbody() {
   const router = useRouter()
@@ -21,6 +25,9 @@ export default function Inbody() {
       return axiosInstance.get("/inbody").then((res) => res.data.response)
     },
   })
+
+  const { userInfo } = useUserInfoQuery()
+
   return (
     <div className="flex flex-col gap-3">
       <div className="flex justify-end">
@@ -111,6 +118,25 @@ export default function Inbody() {
           )}
         </div>
       </ContentBox>
+
+      <div className="grid grid-cols-[minmax(0,_1fr)_minmax(0,_2fr)_minmax(0,_3fr)] gap-y-4 gapx-1 pl-3 items-center">
+        <span>성별</span>
+        <span className="p-2 h-10 col-start-2 col-span-2">{genderString(userInfo?.gender)}</span>
+        <span>신장</span>
+        <span className="p-2 h-10">{userInfo ? `${userInfo.height}cm` : ""}</span>
+        <div className="flex justify-end">
+          <button
+            type="button"
+            onClick={() => {
+              openModal("개인 데이터 변경", <UpdateUserInbodyInfoForm />)
+            }}
+            className="flex items-center justify-center gap-1 px-5 h-8 rounded-full bg-main-theme"
+          >
+            <MdEdit />
+            <span>데이터 변경</span>
+          </button>
+        </div>
+      </div>
 
       <button
         type="button"
