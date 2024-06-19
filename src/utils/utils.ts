@@ -60,3 +60,14 @@ export function formatDateToStringDash(date: Date) {
 
   return `${year}-${month}-${day}`
 }
+
+export function genderString(gender?: number) {
+  switch (gender) {
+    case 0:
+      return "남자"
+    case 1:
+      return "여자"
+    default:
+      return ""
+  }
+}

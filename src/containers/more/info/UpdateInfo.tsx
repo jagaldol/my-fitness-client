@@ -8,6 +8,7 @@ import { MdPassword } from "react-icons/md"
 import useModal from "@/hooks/useModal"
 import UpdatePasswordForm from "@/containers/more/info/UpdatePasswordForm"
 import Dropdown from "@/components/Dropdown"
+import { genderString } from "@/utils/utils"
 
 export default function UpdateInfo() {
   const router = useRouter()
@@ -21,11 +22,16 @@ export default function UpdateInfo() {
   const [gender, setGender] = useState(-1)
   const [height, setHeight] = useState("")
 
+  const genderOptions = [
+    { id: 0, name: genderString(0) },
+    { id: 1, name: genderString(1) },
+  ]
+
   const reset = useCallback(() => {
     if (userInfo) {
       setName(userInfo.name)
       setMemo(userInfo.memo ? userInfo.memo : "")
-      setGender(userInfo.gender ? 1 : 0)
+      setGender(userInfo.gender)
       setHeight(userInfo.height)
     }
   }, [userInfo])
@@ -79,13 +85,10 @@ export default function UpdateInfo() {
         <span className="p-2 h-10">{userInfo?.email}</span>
         <span>성별</span>
         <Dropdown
-          options={[
-            { id: 0, name: "남자" },
-            { id: 1, name: "여자" },
-          ]}
+          options={genderOptions}
           width={100}
           onChange={(e) => {
-            onBlurred("gender", e.target.value !== "0")
+            onBlurred("gender", e.target.value)
           }}
           selectedOptionId={gender}
           placeholder=""
