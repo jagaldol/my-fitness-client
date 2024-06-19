@@ -32,9 +32,9 @@ export default function AddInbodyForm() {
       className="flex flex-col gap-10"
       onSubmit={(e) => {
         e.preventDefault()
-        const weight = Number(weightRef?.current?.value.trim())
-        const muscle = Number(muscleRef?.current?.value.trim())
-        const fat = Number(fatRef?.current?.value.trim())
+        const weight = Number(weightRef?.current?.value.replaceAll(" ", ""))
+        const muscle = Number(muscleRef?.current?.value.replaceAll(" ", ""))
+        const fat = Number(fatRef?.current?.value.replaceAll(" ", ""))
 
         mutate(
           {

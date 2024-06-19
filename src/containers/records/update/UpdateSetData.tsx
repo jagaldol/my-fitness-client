@@ -108,12 +108,20 @@ export default function UpdateSetData({ data, sessionId, idx }: { data: SetData;
           }}
           onBlur={() => {
             const { weight } = set
-            if (weight === "") {
+            const trimWeight = weight.replaceAll(" ", "")
+            if (trimWeight === "") {
               setSet((prevState) => ({
                 ...prevState,
                 weight: data.weight.toString(),
               }))
-            } else if (data.weight.toString() !== weight) onBlurred("weight", weight)
+              return
+            }
+            if (data.weight.toString() !== trimWeight) onBlurred("weight", trimWeight)
+
+            setSet((prevState) => ({
+              ...prevState,
+              weight: trimWeight,
+            }))
           }}
           onKeyDown={(e) => {
             if (e.key === "Enter") e.currentTarget.blur()
