@@ -1,5 +1,5 @@
 import axiosInstance from "@/utils/axiosInstance"
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useState } from "react"
 import useToast from "@/hooks/useToast"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import useErrorResponseHandler from "@/hooks/useErrorResponseHandler"
@@ -7,6 +7,8 @@ import moment from "moment/moment"
 import DatePicker from "@/components/DatePicker"
 import { formatDateToString } from "@/utils/utils"
 import useModal from "@/hooks/useModal"
+import InbodyBarChartContainer from "@/containers/more/inbody/InbodyBarChartContainer"
+import useUserInfoQuery from "@/hooks/useUserInfoQuery"
 
 export default function UpdateInbodyForm({ id }: { id: number }) {
   const { onCloseModal } = useModal()
@@ -21,6 +23,8 @@ export default function UpdateInbodyForm({ id }: { id: number }) {
       return axiosInstance.get("/inbody").then((res) => res.data.response)
     },
   })
+
+  const { userInfo } = useUserInfoQuery()
 
   const { mutate: updateMutate } = useMutation({
     mutationFn: (newData: any) => {
@@ -41,32 +45,35 @@ export default function UpdateInbodyForm({ id }: { id: number }) {
   })
 
   const [date, setDate] = useState(new Date())
-  const weightRef = useRef<HTMLInputElement>(null)
-  const muscleRef = useRef<HTMLInputElement>(null)
-  const fatRef = useRef<HTMLInputElement>(null)
+  const [weight, setWeight] = useState("")
+  const [muscle, setMuscle] = useState("")
+  const [fat, setFat] = useState("")
 
   useEffect(() => {
     if (isFetched) {
       setDate(moment(data.filter((d: any) => d.id === id)[0].date, "YYYY-MM_DD").toDate())
+      setWeight(data.filter((d: any) => d.id === id)[0].weight)
+      setMuscle(data.filter((d: any) => d.id === id)[0].muscle)
+      setFat(data.filter((d: any) => d.id === id)[0].fat)
     }
   }, [id, isFetched, data])
   return (
     isFetched && (
       <form
-        className="flex flex-col gap-10"
+        className="flex flex-col gap-5"
         onSubmit={(e) => {
           e.preventDefault()
-          const weight = Number(weightRef?.current?.value.replaceAll(" ", ""))
-          const muscle = Number(muscleRef?.current?.value.replaceAll(" ", ""))
-          const fat = Number(fatRef?.current?.value.replaceAll(" ", ""))
+          const w = Number(weight)
+          const m = Number(muscle)
+          const f = Number(fat)
 
           updateMutate(
             {
               date: moment(date).format("YYYY-MM-DD"),
-              weight,
-              muscle,
-              fat,
-              percentFat: Math.round((fat / weight) * 10000) / 100,
+              weight: w,
+              muscle: m,
+              fat: f,
+              percentFat: Math.round((f / w) * 10000) / 100,
             },
             {
               onSuccess: () => {
@@ -78,45 +85,55 @@ export default function UpdateInbodyForm({ id }: { id: number }) {
           )
         }}
       >
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center">
-            <span className="w-24">날짜</span>
-            <div className="flex items-center gap-2">
-              <DatePicker date={date} setDate={setDate} />
-              <span>{formatDateToString(date)}</span>
-            </div>
-          </div>
-          <div className="flex items-center">
-            <span className="w-24">체중(kg)</span>
-            <input
-              type="tel"
-              ref={weightRef}
-              defaultValue={data.filter((d: any) => d.id === id)[0].weight}
-              className="p-2 w-32 bg-input-box rounded-md h-10"
-              required
-            />
-          </div>
-          <div className="flex items-center">
-            <span className="w-24">골격근량(kg)</span>
-            <input
-              type="tel"
-              ref={muscleRef}
-              defaultValue={data.filter((d: any) => d.id === id)[0].muscle}
-              className="p-2 w-32 bg-input-box rounded-md h-10"
-              required
-            />
-          </div>
-          <div className="flex items-center">
-            <span className="w-24">체지방량(kg)</span>
-            <input
-              type="tel"
-              ref={fatRef}
-              defaultValue={data.filter((d: any) => d.id === id)[0].fat}
-              className="p-2 w-32 bg-input-box rounded-md h-10"
-              required
-            />
+        <div className="flex items-center">
+          <span className="w-24">날짜</span>
+          <div className="flex items-center gap-2">
+            <DatePicker date={date} setDate={setDate} />
+            <span>{formatDateToString(date)}</span>
           </div>
         </div>
+        <div className="flex items-center">
+          <span className="w-24">체중(kg)</span>
+          <input
+            type="tel"
+            value={weight}
+            onChange={(e) => setWeight(e.target.value)}
+            className="p-2 w-32 bg-input-box rounded-md h-10"
+            required
+          />
+        </div>
+        <div className="flex items-center">
+          <span className="w-24">골격근량(kg)</span>
+          <input
+            type="tel"
+            value={muscle}
+            onChange={(e) => setMuscle(e.target.value)}
+            className="p-2 w-32 bg-input-box rounded-md h-10"
+            required
+          />
+        </div>
+        <div className="flex items-center">
+          <span className="w-24">체지방량(kg)</span>
+          <input
+            type="tel"
+            value={fat}
+            onChange={(e) => setFat(e.target.value)}
+            className="p-2 w-32 bg-input-box rounded-md h-10"
+            required
+          />
+        </div>
+        <div className="w-[300px]">
+          {userInfo && (
+            <InbodyBarChartContainer
+              height={userInfo.height}
+              gender={userInfo.gender}
+              weight={weight}
+              muscle={muscle}
+              fat={fat}
+            />
+          )}
+        </div>
+
         <div className="flex w-full gap-4">
           <button
             type="button"
