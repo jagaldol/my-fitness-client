@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react"
+import React, { useState } from "react"
 import useToast from "@/hooks/useToast"
 import useModal from "@/hooks/useModal"
 import useErrorResponseHandler from "@/hooks/useErrorResponseHandler"
@@ -7,11 +7,15 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import DatePicker from "@/components/DatePicker"
 import { formatDateToString } from "@/utils/utils"
 import moment from "moment"
+import InbodyBarChartContainer from "@/containers/more/inbody/InbodyBarChartContainer"
+import useUserInfoQuery from "@/hooks/useUserInfoQuery"
 
 export default function AddInbodyForm() {
   const { onCloseModal } = useModal()
   const { addSuccessToast } = useToast()
   const errorHandler = useErrorResponseHandler()
+
+  const { userInfo } = useUserInfoQuery()
 
   const queryClient = useQueryClient()
   const { mutate } = useMutation({
@@ -23,26 +27,26 @@ export default function AddInbodyForm() {
     },
   })
   const [date, setDate] = useState(new Date())
-  const weightRef = useRef<HTMLInputElement>(null)
-  const muscleRef = useRef<HTMLInputElement>(null)
-  const fatRef = useRef<HTMLInputElement>(null)
+  const [weight, setWeight] = useState("")
+  const [muscle, setMuscle] = useState("")
+  const [fat, setFat] = useState("")
 
   return (
     <form
       className="flex flex-col gap-10"
       onSubmit={(e) => {
         e.preventDefault()
-        const weight = Number(weightRef?.current?.value.replaceAll(" ", ""))
-        const muscle = Number(muscleRef?.current?.value.replaceAll(" ", ""))
-        const fat = Number(fatRef?.current?.value.replaceAll(" ", ""))
+        const w = Number(weight)
+        const m = Number(muscle)
+        const f = Number(fat)
 
         mutate(
           {
             date: moment(date).format("YYYY-MM-DD"),
-            weight,
-            muscle,
-            fat,
-            percentFat: Math.round((fat / weight) * 10000) / 100,
+            weight: w,
+            muscle: m,
+            fat: f,
+            percentFat: Math.round((f / w) * 10000) / 100,
           },
           {
             onSuccess: () => {
@@ -64,16 +68,45 @@ export default function AddInbodyForm() {
         </div>
         <div className="flex items-center">
           <span className="w-24">체중(kg)</span>
-          <input type="tel" ref={weightRef} className="p-2 w-32 bg-input-box rounded-md h-10" required />
+          <input
+            type="tel"
+            value={weight}
+            onChange={(e) => setWeight(e.target.value)}
+            className="p-2 w-32 bg-input-box rounded-md h-10"
+            required
+          />
         </div>
         <div className="flex items-center">
           <span className="w-24">골격근량(kg)</span>
-          <input type="tel" ref={muscleRef} className="p-2 w-32 bg-input-box rounded-md h-10" required />
+          <input
+            type="tel"
+            value={muscle}
+            onChange={(e) => setMuscle(e.target.value)}
+            className="p-2 w-32 bg-input-box rounded-md h-10"
+            required
+          />
         </div>
         <div className="flex items-center">
           <span className="w-24">체지방량(kg)</span>
-          <input type="tel" ref={fatRef} className="p-2 w-32 bg-input-box rounded-md h-10" required />
+          <input
+            type="tel"
+            value={fat}
+            onChange={(e) => setFat(e.target.value)}
+            className="p-2 w-32 bg-input-box rounded-md h-10"
+            required
+          />
         </div>
+      </div>
+      <div className="w-[300px]">
+        {userInfo && (
+          <InbodyBarChartContainer
+            height={userInfo.height}
+            gender={userInfo.gender}
+            weight={weight}
+            muscle={muscle}
+            fat={fat}
+          />
+        )}
       </div>
       <button type="submit" className="w-full h-10 rounded-full bg-main-theme">
         추가

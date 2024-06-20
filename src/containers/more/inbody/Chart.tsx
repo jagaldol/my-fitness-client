@@ -67,7 +67,7 @@ export default function Chart({ id, data, color }: { id: string; data: Datum[]; 
       }}
       gridYValues={uniqueYValues}
       tooltip={CustomTooltip}
-      onClick={(point: any) => openModal("기록 수정", <UpdateInbodyForm id={point.data.id} />)}
+      onClick={(point: any) => openModal("인바디 기록 수정", <UpdateInbodyForm id={point.data.id} />)}
       useMesh
       theme={theme}
     />
