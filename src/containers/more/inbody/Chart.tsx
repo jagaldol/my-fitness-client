@@ -1,4 +1,4 @@
-import { PointTooltipProps, ResponsiveLine } from "@nivo/line"
+import { Datum, PointTooltipProps, ResponsiveLine } from "@nivo/line"
 import { BasicTooltip } from "@nivo/tooltip"
 import React from "react"
 import useModal from "@/hooks/useModal"
@@ -25,12 +25,12 @@ function CustomTooltip({ point }: PointTooltipProps) {
   return <BasicTooltip id={String(point.data.y)} />
 }
 
-export default function Chart({ id, data, color }: { id: string; data: { x: string; y: number }[]; color: string }) {
+export default function Chart({ id, data, color }: { id: string; data: Datum[]; color: string }) {
   const { openModal } = useModal()
 
   if (data.length === 0) return <div className="w-full text-center text-text-gray">기록을 추가해주세요</div>
-  const minX = Math.min(...data.map((d) => d.y)) - 0.1
-  const maxX = Math.max(...data.map((d) => d.y)) + 0.1
+  const minX = Math.min(...data.map((d) => Number(d.y))) - 0.1
+  const maxX = Math.max(...data.map((d) => Number(d.y))) + 0.1
   const interval = (maxX - minX) / 3
   const yValues = [minX, minX + interval, minX + 2 * interval, maxX].map((value) => Math.round(value * 10) / 10)
 
