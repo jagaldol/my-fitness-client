@@ -42,7 +42,7 @@ export default function DatePicker({ date, setDate }: Props) {
       {isOpen && (
         <div
           ref={calendarRef}
-          className="absolute max-md:top-1/2 max-md:left-1/2 max-md:-translate-x-1/2 max-md:-translate-y-1/2 md:top-full md:-left-5 w-[250px] h-[300px] date-picker"
+          className="absolute z-[50] max-md:top-1/2 max-md:left-1/2 max-md:-translate-x-1/2 max-md:-translate-y-1/2 md:top-full md:-left-5 w-[250px] h-[300px] date-picker"
         >
           <Calendar
             locale="ko"
