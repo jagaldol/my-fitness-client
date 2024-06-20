@@ -37,15 +37,12 @@ function BarChart({
       theme={theme}
       keys={["below", "average", "above"]}
       colors={["#7BCCC4", "#2B8CBE", "#084081"]}
-      margin={{ right: 10, bottom: 30, left: 52 }}
+      margin={{ right: 10, bottom: 30, left: 95 }}
       padding={0.3}
       layout="horizontal"
-      axisLeft={{
-        tickSize: 0,
-      }}
+      axisLeft={{}}
       axisBottom={{
         tickValues,
-        tickRotation: 90,
       }}
       gridXValues={tickValues}
       enableGridX
@@ -76,7 +73,7 @@ export default function InbodyBarChartContainer({ height, gender, weight, muscle
       <div className="h-12">
         <BarChart
           data={{
-            id: "체중",
+            id: "체중(백분율)",
             below: percentWeight >= 85 ? 85 : percentWeight,
             average: percentWeight >= 115 ? 30 : percentWeight - 85,
             above: percentWeight >= 115 ? percentWeight - 115 : 0,
@@ -87,7 +84,7 @@ export default function InbodyBarChartContainer({ height, gender, weight, muscle
       <div className="h-12">
         <BarChart
           data={{
-            id: "골격근량",
+            id: "골격근량(백분율)",
             below: percentMuscle >= 90 ? 90 : percentMuscle,
             average: percentMuscle >= 110 ? 20 : percentMuscle - 90,
             above: percentMuscle >= 110 ? percentMuscle - 110 : 0,
@@ -98,7 +95,7 @@ export default function InbodyBarChartContainer({ height, gender, weight, muscle
       <div className="h-12">
         <BarChart
           data={{
-            id: "체지방률",
+            id: "체지방률(%)",
             below: pbf >= minNormalPBF ? minNormalPBF : pbf,
             average: pbf >= maxNormalPBF ? maxNormalPBF - minNormalPBF : pbf - minNormalPBF,
             above: pbf >= maxNormalPBF ? pbf - maxNormalPBF : 0,
