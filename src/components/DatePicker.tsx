@@ -11,10 +11,11 @@ interface Props {
 export default function DatePicker({ date, setDate }: Props) {
   const [isOpen, setIsOpen] = useState(false)
   const calendarRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
 
   const handleClickOutside = (event: MouseEvent) => {
     if (calendarRef.current && !calendarRef.current.contains(event.target as Node)) {
-      setIsOpen(false)
+      if (buttonRef.current && !buttonRef.current.contains(event.target as Node)) setIsOpen(false)
     }
   }
 
@@ -33,6 +34,7 @@ export default function DatePicker({ date, setDate }: Props) {
     <div className="md:relative flex items-center gap-6 md:gap-2">
       <button
         type="button"
+        ref={buttonRef}
         aria-label="날짜 선택"
         className="bg-main-theme rounded p-1.5 text-lg"
         onClick={() => setIsOpen((prev) => !prev)}
