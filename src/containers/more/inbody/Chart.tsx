@@ -47,10 +47,10 @@ export default function Chart({
   const { openModal } = useModal()
 
   if (data.length === 0) return <div className="w-full text-center text-text-gray">기록을 추가해주세요</div>
-  const minX = Math.min(...data.map((d) => Number(d.y))) - 0.1
-  const maxX = Math.max(...data.map((d) => Number(d.y))) + 0.1
-  const interval = (maxX - minX) / 3
-  const yValues = [minX, minX + interval, minX + 2 * interval, maxX].map((value) => Math.round(value * 10) / 10)
+  const minY = Math.min(...data.map((d) => Number(d.y))) - 0.1
+  const maxY = Math.max(...data.map((d) => Number(d.y))) + 0.1
+  const interval = (maxY - minY) / 3
+  const yValues = [minY, minY + interval, minY + 2 * interval, maxY].map((value) => Math.round(value * 10) / 10)
 
   const uniqueYValues = [yValues[0]]
 
@@ -59,7 +59,16 @@ export default function Chart({
       uniqueYValues.push(yValues[i])
     }
   }
-  console.log(data)
+
+  const allDates = data.map((point) => moment(point.x, "YYYY-MM-DD"))
+  const minDate = moment.min(allDates).startOf("month")
+  const maxDate = moment.max(allDates).add(1, "month").startOf("month")
+
+  const months = []
+  for (let currentMonth = minDate.clone(); currentMonth <= maxDate; currentMonth.add(1, "month")) {
+    months.push(currentMonth.toDate())
+  }
+
   return (
     <ResponsiveLine
       data={[
@@ -73,11 +82,13 @@ export default function Chart({
         type: "time",
         format: "%Y-%m-%d",
         precision: "day",
+        min: minDate.toDate(),
+        max: maxDate.toDate(),
       }}
       yScale={{
         type: "linear",
-        min: minX,
-        max: maxX,
+        min: minY,
+        max: maxY,
       }}
       xFormat="time:%Y-%m-%d"
       enableGridX={false}
@@ -89,7 +100,7 @@ export default function Chart({
       axisBottom={{
         tickRotation: 90, // Rotates the labels
         format: (date) => moment(date).format("YY.M.D"), // 날짜 형식
-        tickValues: "every 2 months",
+        tickValues: months,
       }}
       gridYValues={uniqueYValues}
       tooltip={(point) => CustomTooltip(point, unit)}
