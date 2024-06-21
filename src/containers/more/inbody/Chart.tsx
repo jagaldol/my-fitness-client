@@ -64,10 +64,13 @@ export default function Chart({
   const minDate = moment.min(allDates).startOf("month")
   const maxDate = moment.max(allDates).add(1, "month").startOf("month")
 
+  const totalMonths = maxDate.diff(minDate, "months") + 1
+  const monthInterval = Math.floor(totalMonths / 12) + 1
   const months = []
-  for (let currentMonth = minDate.clone(); currentMonth <= maxDate; currentMonth.add(1, "month")) {
+  for (let currentMonth = minDate.clone(); currentMonth < maxDate; currentMonth.add(monthInterval, "month")) {
     months.push(currentMonth.toDate())
   }
+  months.push(maxDate.toDate())
 
   return (
     <ResponsiveLine
