@@ -3,6 +3,7 @@ import { BasicTooltip } from "@nivo/tooltip"
 import React from "react"
 import useModal from "@/hooks/useModal"
 import UpdateInbodyForm from "@/containers/more/inbody/UpdateInbodyForm"
+import moment from "moment/moment"
 
 const theme = {
   text: {
@@ -21,11 +22,28 @@ const theme = {
   },
 }
 
-function CustomTooltip({ point }: PointTooltipProps) {
-  return <BasicTooltip id={String(point.data.y)} />
+function CustomTooltip({ point }: PointTooltipProps, unit: string) {
+  return (
+    <BasicTooltip
+      id={moment(point.data.x).format("YY년 M월 D일")}
+      value={`${point.data.y}${unit}`}
+      enableChip
+      color={point.serieColor}
+    />
+  )
 }
 
-export default function Chart({ id, data, color }: { id: string; data: Datum[]; color: string }) {
+export default function Chart({
+  id,
+  data,
+  color,
+  unit = "kg",
+}: {
+  id: string
+  data: Datum[]
+  color: string
+  unit?: string
+}) {
   const { openModal } = useModal()
 
   if (data.length === 0) return <div className="w-full text-center text-text-gray">기록을 추가해주세요</div>
@@ -41,7 +59,7 @@ export default function Chart({ id, data, color }: { id: string; data: Datum[]; 
       uniqueYValues.push(yValues[i])
     }
   }
-
+  console.log(data)
   return (
     <ResponsiveLine
       data={[
@@ -51,11 +69,17 @@ export default function Chart({ id, data, color }: { id: string; data: Datum[]; 
         },
       ]}
       margin={{ top: 10, right: 10, bottom: 54, left: 32 }}
+      xScale={{
+        type: "time",
+        format: "%Y-%m-%d",
+        precision: "day",
+      }}
       yScale={{
         type: "linear",
         min: minX,
         max: maxX,
       }}
+      xFormat="time:%Y-%m-%d"
       enableGridX={false}
       colors={[`${color}`]}
       pointSize={10}
@@ -64,9 +88,11 @@ export default function Chart({ id, data, color }: { id: string; data: Datum[]; 
       }}
       axisBottom={{
         tickRotation: 90, // Rotates the labels
+        format: (date) => moment(date).format("YY.M.D"), // 날짜 형식
+        tickValues: "every 2 months",
       }}
       gridYValues={uniqueYValues}
-      tooltip={CustomTooltip}
+      tooltip={(point) => CustomTooltip(point, unit)}
       onClick={(point: any) => openModal("인바디 기록 수정", <UpdateInbodyForm id={point.data.id} />)}
       useMesh
       theme={theme}

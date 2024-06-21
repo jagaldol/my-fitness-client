@@ -6,7 +6,6 @@ import useModal from "@/hooks/useModal"
 import axiosInstance from "@/utils/axiosInstance"
 import { useQuery } from "@tanstack/react-query"
 import ContentBox from "@/components/ContentBox"
-import moment from "moment"
 import AddInbodyForm from "@/containers/more/inbody/AddInbodyForm"
 import { FaPlus } from "react-icons/fa6"
 import Chart from "@/containers/more/inbody/Chart"
@@ -52,7 +51,7 @@ export default function Inbody() {
             <Chart
               id="weight"
               data={data.map((value: any) => ({
-                x: moment(value.date).format("YY.M.D"),
+                x: value.date,
                 y: value.weight,
                 id: value.id,
               }))}
@@ -71,7 +70,7 @@ export default function Inbody() {
             <Chart
               id="muscle"
               data={data.map((value: any) => ({
-                x: moment(value.date).format("YY.M.D"),
+                x: value.date,
                 y: value.muscle,
                 id: value.id,
               }))}
@@ -90,7 +89,7 @@ export default function Inbody() {
             <Chart
               id="fat"
               data={data.map((value: any) => ({
-                x: moment(value.date).format("YY.M.D"),
+                x: value.date,
                 y: value.fat,
                 id: value.id,
               }))}
@@ -109,11 +108,12 @@ export default function Inbody() {
             <Chart
               id="percentFat"
               data={data.map((value: any) => ({
-                x: moment(value.date).format("YY.M.D"),
+                x: value.date,
                 y: value.percentFat,
                 id: value.id,
               }))}
               color="#FF725C"
+              unit="%"
             />
           )}
         </div>
